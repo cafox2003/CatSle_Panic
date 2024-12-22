@@ -14,15 +14,7 @@ class Render:
         self.FONT_SIZE = 20
         self.FONT = pygame.font.SysFont(self.FONT_TYPE, self.FONT_SIZE)
         self.BLACK = (0, 0, 0)
-
-    # Logic to display images
-    def show_image_test(self, image_path="images/sword_man.jpg"):
-        image = pygame.image.load(image_path)
-
-        transformed_image = pygame.transform.scale(image, (2*self.SCALE, 3*self.SCALE))
-
-        self.game_window.screen.blit(transformed_image, (25, 25))
-
+    # CARD LOGIC
     def render_card(self, card, x, y):
         # Display image
         self.game_window.screen.blit(card.image, (x, y))
@@ -48,3 +40,18 @@ class Render:
         for c in cards:
             self.render_card(c, x, y)
             x += (distance + self.CARD_WIDTH)
+
+    # Logic to display images
+    def show_image_test(self, image_path="images/sword_man.jpg"):
+        image = pygame.image.load(image_path)
+
+        transformed_image = pygame.transform.scale(image, (2*self.SCALE, 3*self.SCALE))
+        self.game_window.screen.blit(transformed_image, (25, 25))
+
+
+    # Board logic
+    def render_board(self, board):
+        for shape in board.shapes:
+            center_x = (self.game_window.screen.get_width() - board.length) // 2
+            center_y = (self.game_window.screen.get_height() - board.height) // 2
+            shape(self.game_window.screen, center_x, center_y)
