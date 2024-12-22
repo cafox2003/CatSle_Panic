@@ -3,7 +3,7 @@ import math
 
 class Shape:
     def __init__(self, shape_type, color, relative_position=(0, 0), border_width=0, width=0, height=0, radius=0, 
-                 angle_start=0, angle_end=0, pos_start=(0,0), pos_end=(0,0), points=[], centered=False):
+                 angle_start=0, angle_end=0, pos_start=(0,0), pos_end=(0,0), points=[], text="", font_size=0, centered=False):
         self.shape_type = shape_type
         self.color = color
         self.relative_position = relative_position
@@ -16,6 +16,8 @@ class Shape:
         self.pos_start = pos_start
         self.pos_end = pos_end
         self.points = points
+        self.text = text
+        self.font_size = font_size
         self.centered = centered
 
     def get_draw_function(self, board_length, board_height):
@@ -30,6 +32,8 @@ class Shape:
             return self._get_line_draw_function(board_length, board_height)
         elif self.shape_type == "polygon":
             return self._get_polygon_draw_function(board_length, board_height)
+        elif self.shape_type == "text":
+            return self._get_text_draw_function(board_length, board_height)
         else:
             raise ValueError(f"Unsupported shape type: {self.shape_type}")
 
@@ -46,18 +50,33 @@ class Shape:
             self.border_width
         )
 
+    # def _get_circle_draw_function(self, board_length, board_height):
+    #     return lambda screen, x_offset, y_offset: pygame.draw.circle(
+    #         screen,
+    #         self.color,
+    #         (
+    #             (x_offset if self.centered else self.relative_position[0]) + board_length // 2,  # Adjust X-coordinate for circle center
+    #             (y_offset if self.centered else self.relative_position[1]) + board_height // 2  # Adjust Y-coordinate for circle center
+    #         ),
+    #         # (
+    #         #     (x_offset if self.centered else self.relative_position[0]) + board_length // 2,  # Adjust X-coordinate for circle center
+    #         #     (y_offset if self.centered else self.relative_position[1]) + board_height // 2  # Adjust Y-coordinate for circle center
+    #         # ),
+    #         self.radius,  # Radius of the circle
+    #         self.border_width
+    #     )
+
     def _get_circle_draw_function(self, board_length, board_height):
         return lambda screen, x_offset, y_offset: pygame.draw.circle(
             screen,
             self.color,
             (
-                (x_offset if self.centered else self.relative_position[0]) + board_length // 2,  # Adjust X-coordinate for circle center
-                (y_offset if self.centered else self.relative_position[1]) + board_height // 2  # Adjust Y-coordinate for circle center
+                (self.relative_position[0] if not self.centered else board_length // 2) + x_offset + self.relative_position[0],
+                (self.relative_position[1] if not self.centered else board_height // 2) + y_offset + self.relative_position[1],
             ),
             self.radius,  # Radius of the circle
             self.border_width
         )
-
 
     
     def _get_polygon_draw_function(self, board_length, board_height):
@@ -100,7 +119,18 @@ class Shape:
             ),
             self.border_width
         )
-
+    def _get_text_draw_function(self, board_length, board_height):
+        def draw_text(screen, x_offset, y_offset):
+            font = pygame.font.Font(None, self.font_size)  # Default font with specified size
+            text_surface = font.render(self.text, True, self.color)
+            text_rect = text_surface.get_rect(
+                    center=(
+                        (self.relative_position[0] if not self.centered else board_length // 2) + x_offset + self.relative_position[0],
+                        (self.relative_position[1] if not self.centered else board_height // 2) + y_offset + self.relative_position[1],
+                        )
+                    )
+            screen.blit(text_surface, text_rect)
+        return draw_text
 
 def filled_pie(surface, x, y, r, start_angle, stop_angle, color):
     # Convert angles to radians
@@ -108,17 +138,17 @@ def filled_pie(surface, x, y, r, start_angle, stop_angle, color):
 
     start_rad = math.radians(start_angle)
     stop_rad = math.radians(stop_angle)
-    
+
     # Start with the center point
     points = [(x, y)]
-    
+
     # Add points along the arc (12 segments should be smooth enough)
     for i in range(POINTS):  # 13 points = 12 segments
         angle = start_rad + (stop_rad - start_rad) * (i / (POINTS-1))
         points.append((
             x + r * math.cos(angle),
             y - r * math.sin(angle)  # Subtract because pygame Y coordinates go down
-        ))
-    
+            ))
+
     # Draw the filled polygon
     return pygame.draw.polygon(surface, color, points)
