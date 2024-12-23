@@ -1,4 +1,5 @@
 import pygame
+from logic.game_logic.constants import BOARD
 
 class Render:
     def __init__(self, game_window):
@@ -52,6 +53,6 @@ class Render:
     # Board logic
     def render_board(self, board):
         for shape in board.shapes:
-            center_x = (self.game_window.screen.get_width() - board.length) // 2
-            center_y = (self.game_window.screen.get_height() - board.height) // 2
+            center_x = (self.game_window.screen.get_width() - BOARD.LENGTH) // 2
+            center_y = (self.game_window.screen.get_height() - BOARD.HEIGHT) // 2
             shape(self.game_window.screen, center_x, center_y)
