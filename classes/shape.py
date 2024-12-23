@@ -121,15 +121,24 @@ class Shape:
         )
     def _get_text_draw_function(self, board_length, board_height):
         def draw_text(screen, x_offset, y_offset):
+            # Create a font object and render the text
             font = pygame.font.Font(None, self.font_size)  # Default font with specified size
             text_surface = font.render(self.text, True, self.color)
-            text_rect = text_surface.get_rect(
-                    center=(
-                        (self.relative_position[0] if not self.centered else board_length // 2) + x_offset + self.relative_position[0],
-                        (self.relative_position[1] if not self.centered else board_height // 2) + y_offset + self.relative_position[1],
-                        )
-                    )
-            screen.blit(text_surface, text_rect)
+
+            # Rotate the text surface
+            rotated_text = pygame.transform.rotate(text_surface, self.angle_start)  # Use angle_start or another angle if needed
+
+            # Get the new rect after rotation, so we can center it correctly
+            rotated_rect = rotated_text.get_rect(
+                center=(
+                    (self.relative_position[0] if not self.centered else board_length // 2) + x_offset + self.relative_position[0],
+                    (self.relative_position[1] if not self.centered else board_height // 2) + y_offset + self.relative_position[1]
+                )
+            )
+
+            # Blit the rotated text
+            screen.blit(rotated_text, rotated_rect)
+        
         return draw_text
 
 def filled_pie(surface, x, y, r, start_angle, stop_angle, color):
@@ -152,3 +161,12 @@ def filled_pie(surface, x, y, r, start_angle, stop_angle, color):
 
     # Draw the filled polygon
     return pygame.draw.polygon(surface, color, points)
+
+# Return points along the guiding lines, or in relation to them
+def get_hex_points(magnitude, angle_mod=0):
+    points = []
+    for a in range(30, 361, 60):
+        angled_point = (magnitude * math.cos(math.radians(a+angle_mod)), magnitude * math.sin(math.radians(a+angle_mod)))
+        points.append(angled_point)
+
+    return points

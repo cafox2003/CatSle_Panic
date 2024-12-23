@@ -1,13 +1,14 @@
 import pygame
 import pygame.gfxdraw
 import math
-from classes.shape import Shape
+from classes.shape import Shape, get_hex_points
 class Board:
     def __init__(self, length=900, height=900):
         self.RING_DISTANCE = 95
         self.HEXAGON_DISTANCE = self.RING_DISTANCE * 1.25
         self.COLORS = [(255,0,0),(0,255,0),(0,0,255)]
-
+        self.TEXT_LABELS = ["Swordsman", "Knight", "Archer", "Forest"]
+        #TODO: Add/load all colors, fonts, and font size as constants
 
         self.length = length
         self.height = height
@@ -34,7 +35,7 @@ class Board:
             centered=True
         )
 
-        # Add a centered circle
+        # Add a centered circle (forest ring)
         self.add_shape(
             shape_type="circle",
             color=(63, 117, 57),
@@ -57,16 +58,8 @@ class Board:
                 centered=True  # Use centered=True for center positioning
             )
 
-
-
         # Get the points that the hexagon will use
-        hexagon_points = []
-        for a in range(30, 361, 60):
-            # Add the inner hexagon
-            current_node = (self.HEXAGON_DISTANCE * math.cos(math.radians(a)), self.HEXAGON_DISTANCE * math.sin(math.radians(a)))
-
-            hexagon_points.append(current_node)
-
+        hexagon_points = get_hex_points(self.HEXAGON_DISTANCE)
 
         # Draw the hexagon and border based on the calculated points
         for i, c in enumerate([(100,100,100), (0, 0, 0)]):
@@ -78,7 +71,6 @@ class Board:
                 border_width = 6*(i) # Will either be 6 or zero
             )
 
-
         # Draw Circle outlines (the "target")
         for r in range(4):
             self.add_shape(
@@ -89,27 +81,22 @@ class Board:
                 border_width = 5
             )
 
-        num_circle_points = []
         # Angled lines, for every angle from 30 to 360 in 60 deg increments
-        for a in range(30, 361, 60):
-            # Add the "disecting" lines
-            angled_point = (self.length/2 * math.cos(math.radians(a)), self.length/2 * math.sin(math.radians(a)))
+        angled_points = get_hex_points(self.length/2)
 
-            # 60/2 = 30, so the midpoints will be 30 degrees above. Adds the midpoints for the circles with numbers
-            num_circle_point = ((self.length-self.RING_DISTANCE)/2 * math.cos(math.radians(a+30)),
-                                (self.length-self.RING_DISTANCE)/2 * math.sin(math.radians(a+30)))
-
-            num_circle_points.append(num_circle_point)
+        for a in angled_points:
 
             self.add_shape(
                 shape_type="line",
                 color=(0, 0, 0),
                 pos_start=(0, 0),
-                pos_end=angled_point,
+                pos_end=a,
                 centered=True,
                 border_width = 5
             )
 
+        # Circles with numbers in them
+        num_circle_points = get_hex_points((self.length-self.RING_DISTANCE)/2, 30)
         for i, c in enumerate(num_circle_points, start=1):  # Start numbering from 1
             self.add_shape(
                 shape_type="circle",
@@ -123,10 +110,37 @@ class Board:
             # Add the number text
             self.add_shape(
                 shape_type="text",
-                color=self.COLORS[(((i + 3)// 2) % 3)], 
-                relative_position=c,  # Same position as the circle
+                color=self.COLORS[(((i + 3)// 2) % 3)], # Make the color of the numbers match up with the rings
+                relative_position=c,  
                 text=str(((i+1) % 6)+1), # Numbers from 1 to 6 in correct order
-                # text=str(i % 6 + 1),
                 font_size=90,  # Adjust font size as needed
                 centered=True
             )
+
+        # Add all the ring text labels
+        for i, m in enumerate(range(-self.RING_DISTANCE//2-self.RING_DISTANCE, -5*self.RING_DISTANCE, -self.RING_DISTANCE)):
+            text = self.TEXT_LABELS[i]
+            hex_points = [x for i, x in enumerate(get_hex_points(-m)) if i % 2]
+            for point in hex_points:
+                angle = math.degrees(math.atan2(point[1], point[0]))  # Convert (x, y) to an angle in degrees
+
+                self.add_shape(
+                    shape_type="text",
+                    color= (255,255,255), # Make the color of the numbers match up with the rings
+                    relative_position=point,  
+                    text=text, # Numbers from 1 to 6 in correct order
+                    font_size=50,  # Adjust font size as needed
+                    angle_start = -angle+270,
+                    centered=True
+                )
+
+        # The middle text that says "Castl"
+        self.add_shape(
+            shape_type="text",
+            color= (255,255,255), # Make the color of the numbers match up with the rings
+            relative_position=(0,0),  
+            text="Castle", # Numbers from 1 to 6 in correct order
+            font_size=50,  # Adjust font size as needed
+            # angle_start = -angle+270,
+            centered=True
+        )
