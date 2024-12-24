@@ -143,7 +143,7 @@ class Shape:
 
 def filled_pie(surface, x, y, r, start_angle, stop_angle, color):
     # Convert angles to radians
-    POINTS = 30
+    POINTS = 100
 
     start_rad = math.radians(start_angle)
     stop_rad = math.radians(stop_angle)
@@ -170,3 +170,7 @@ def get_hex_points(magnitude, angle_mod=0):
         points.append(angled_point)
 
     return points
+
+# Returns the angle that a point is pointed in
+def get_angle(point):
+    return math.degrees(math.atan2(point[1], point[0]))  # Convert (x, y) to an angle in degrees

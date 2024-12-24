@@ -1,5 +1,6 @@
 import pygame
 from logic.game_logic.constants import BOARD
+from logic.game_logic.constants import SCREEN
 
 class Render:
     def __init__(self, game_window):
@@ -15,6 +16,21 @@ class Render:
         self.FONT_SIZE = 20
         self.FONT = pygame.font.SysFont(self.FONT_TYPE, self.FONT_SIZE)
         self.BLACK = (0, 0, 0)
+
+    # Renders an image at a location
+    def render_image(self, image_path="images/tolkens.png", position=(0,0)):
+        print(f"Destination: {position}")
+        image = pygame.image.load(image_path)
+        image_width, image_height = image.get_size()
+
+        # # Calculate the top-left position for rendering
+        render_position = (
+            position[0] - image_width // 2,
+            position[1] - image_height // 2,
+        )
+        # image = pygame.image.load(image_path)
+        self.game_window.screen.blit(image, render_position)
+
     # CARD LOGIC
     def render_card(self, card, x, y):
         # Display image
@@ -47,12 +63,38 @@ class Render:
         image = pygame.image.load(image_path)
 
         transformed_image = pygame.transform.scale(image, (2*self.SCALE, 3*self.SCALE))
-        self.game_window.screen.blit(transformed_image, (25, 25))
-
+        # self.game_window.screen.blit(transformed_image, (25, 25))
+        self.game_window.screen.blit(transformed_image, (0, 0))
 
     # Board logic
     def render_board(self, board):
         for shape in board.shapes:
-            center_x = (self.game_window.screen.get_width() - BOARD.LENGTH) // 2
-            center_y = (self.game_window.screen.get_height() - BOARD.HEIGHT) // 2
+            center_x = (SCREEN.LENGTH - BOARD.LENGTH) // 2
+            center_y = (SCREEN.HEIGHT - BOARD.HEIGHT) // 2
             shape(self.game_window.screen, center_x, center_y)
+        print(f"Center x: {self.game_window.screen.get_width()}, center y: {self.game_window.screen.get_height()}")
+
+
+    def render_monster(self, monster):
+        # Load image
+        image = pygame.image.load(monster.image_path).convert_alpha()
+        image_width, image_height = image.get_size()
+
+        # Scale image
+        scale_factor = BOARD.RING_DISTANCE / max(image_width, image_height)
+        new_width = int(image_width * scale_factor)
+        new_height = int(image_height * scale_factor)
+        image = pygame.transform.scale(image, (new_width, new_height))
+
+        # Rotate the image to the default location
+        rotated_image = pygame.transform.rotate(image, 270 -monster.coordinate.angle)
+
+        #Center the image coordinate to the middle of the image
+        rotated_width, rotated_height = rotated_image.get_size()
+        render_position = (
+            monster.coordinate.position[0] - rotated_width // 2,
+            monster.coordinate.position[1] - rotated_height // 2,
+        )
+
+        #Render the image
+        self.game_window.screen.blit(rotated_image, render_position)

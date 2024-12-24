@@ -1,9 +1,7 @@
 import pygame
 import pygame.gfxdraw
 import math
-from classes.board.shape import Shape, get_hex_points
-
-
+from classes.board.shape import Shape, get_hex_points, get_angle
 from logic.game_logic.constants import BOARD
 
 class Board:
@@ -69,7 +67,7 @@ class Board:
             )
 
         # Draw Circle outlines (the "target")
-        for r in range(len(BOARD.RINGS)):
+        for r in range(len(BOARD.RINGS)-1):
             self.add_shape(
                 shape_type="circle",
                 color=BOARD.BORDER_COLOR,
@@ -116,10 +114,10 @@ class Board:
 
         # Add all the ring text labels
         for i, m in enumerate(range(-BOARD.RING_DISTANCE//2-BOARD.RING_DISTANCE, -5*BOARD.RING_DISTANCE, -BOARD.RING_DISTANCE)):
-            text = BOARD.RINGS[i]
+            text = BOARD.RINGS[i+1] # Skip the castle ring
             hex_points = [x for i, x in enumerate(get_hex_points(-m)) if i % 2] # Only need half of the points
             for j, point in enumerate(hex_points):
-                angle = math.degrees(math.atan2(point[1], point[0]))  # Convert (x, y) to an angle in degrees
+                angle = get_angle(point)  # Convert (x, y) to an angle in degrees
 
                 self.add_shape(
                     shape_type="text",
@@ -131,12 +129,12 @@ class Board:
                     centered=True
                 )
 
-        # The middle text that says "Castl"
+        # The middle text that says "Castle"
         self.add_shape(
             shape_type="text",
             color= BOARD.TEXT_COLOR, # Make the color of the numbers match up with the rings
             relative_position=(0,0),  
-            text="Castle", # Numbers from 1 to 6 in correct order
+            text=BOARD.RINGS[0], 
             font_size=BOARD.RING_FONT_SIZE,  # Adjust font size as needed
             # angle_start = -angle+270,
             centered=True
