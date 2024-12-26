@@ -24,9 +24,22 @@ class Coordinate:
 
     # Center the piece according to the screen size
     def center_position(self, position):
-        new_x = (SCREEN.LENGTH - BOARD.LENGTH) // 2 + position[0] + BOARD.LENGTH // 2 
-        new_y = (SCREEN.HEIGHT - BOARD.HEIGHT) // 2 + position[1] + BOARD.HEIGHT // 2 
+        new_x = BOARD.X_OFFSET + position[0]
+        new_y = BOARD.Y_OFFSET + position[1]
         new_position = (new_x, new_y)
-
         return new_position
+    
+    # Moves the coordinate forward
+    def move(self):
+        if self.ring == BOARD.RINGS[0]:
+            self.number = self.next_number(self.number) # Move clockwise around the castle ring
+        else:
+            self.ring = BOARD.RINGS[BOARD.RINGS.index(self.ring)-1] # Move one ring inward
 
+        self.position = self.calculate_position()
+
+    # Returns the next (clockwise) number.
+    @staticmethod
+    def next_number(index):
+        # TODO: 6 comes from there being 6 rings. Change this and every similar usage to us a constant
+        return ((index % 6) + 1) 

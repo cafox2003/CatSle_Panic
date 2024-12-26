@@ -1,4 +1,5 @@
 import pygame
+import time
 from classes.card import Card
 from classes.board.board import Board
 from classes.board.coordinate import Coordinate
@@ -19,15 +20,22 @@ class Game_Window:
         board.render()
 
         # Render monsters
-        monsters = [Monster.create_from_template("goblin", i) for i in range(1,7)]
-        for m in monsters:
-            m.render()
-
+        monsters = [Monster.create_from_template("orc", i) for i in range(1,7)]
 
         while run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+
+            # Update the screen
+            SCREEN.screen.fill((0,0,0))
+            board.render()
+    
+            monsters[0].render()
+            monsters[0].move()
+
+            time.sleep(1)
+
             pygame.display.flip()
         pygame.quit()
 

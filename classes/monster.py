@@ -9,7 +9,6 @@ class Monster:
         self.name = name 
         self.health = health 
         self.max_health = health 
-        # self.image_path = image_path 
         self.image = self.render_image(image_path) 
         self.event = event 
 
@@ -20,6 +19,10 @@ class Monster:
             template = MONSTER.MONSTER_TEMPLATES[template_name]
             return cls(name = template['name'], health = template['health'], 
                        image_path = template['image_path'], number = number)
+
+    def move(self):
+        self.coordinate.move()
+
     @staticmethod
     def render_image(image_path):
         # Load image
@@ -39,14 +42,15 @@ class Monster:
         # TODO: Define angle by the monster's health
         rotated_image = pygame.transform.rotate(self.image, 270 -self.coordinate.angle)
 
-        #Center the image coordinate to the middle of the image
+        #Center the image coordinate to the x/y displacement
         rotated_width, rotated_height = rotated_image.get_size()
         render_position = (
-            self.coordinate.position[0] - rotated_width // 2 + BOARD.X_DISPLACEMENT,
-            self.coordinate.position[1] - rotated_height // 2 + BOARD.Y_DISPLACEMENT,
+            self.coordinate.position[0] - rotated_width // 2,
+            self.coordinate.position[1] - rotated_height // 2,
         )
 
         #Render the image
+        # SCREEN.screen.blit(rotated_image, render_position)
         SCREEN.screen.blit(rotated_image, render_position)
 
 if __name__ == "__main__":
