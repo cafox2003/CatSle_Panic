@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from classes.board.coordinate import Coordinate
 from logic.game_logic.constants import BOARD, MONSTER, SCREEN
@@ -22,6 +23,22 @@ class Monster:
 
     def move(self):
         self.coordinate.move()
+
+    @staticmethod
+    def generate_monsters(num_monsters=20):
+        monsters = []
+        for i in range(num_monsters):
+            # Number it starts at
+            number = random.randint(1, 6)
+            # Get a random monster type from the templates
+            monster_type = random.choice(list(MONSTER.MONSTER_TEMPLATES.keys()))
+            # Create a random monster and add to the list
+            monsters.append(Monster.create_from_template(
+                template_name =monster_type,
+                number=number
+            ))
+        return monsters
+
 
     @staticmethod
     def render_image(image_path):

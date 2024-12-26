@@ -10,8 +10,15 @@ class SCREEN:
         SCREEN.screen = pygame.display.set_mode((SCREEN.LENGTH, SCREEN.HEIGHT))
 
 class BOARD:
-    LENGTH = 1000
-    HEIGHT = LENGTH
+    # Border that the board will be surrounded with. Number of pixels
+    BOARD_BORDER = 60
+
+    # LENGTH = 1000
+    # HEIGHT = LENGTH
+
+    HEIGHT = SCREEN.HEIGHT - 2*BOARD_BORDER
+    LENGTH = HEIGHT
+
     RINGS = ["Castle", "Swordsman", "Knight", "Archer", "Forest"]
 
     RING_DISTANCE = (int) (LENGTH // 10.5) # Roughly the constant needed for the rings to be correctly sized (according to the text)
@@ -31,9 +38,9 @@ class BOARD:
     X_MID = (SCREEN.LENGTH ) // 2
     Y_MID = (SCREEN.HEIGHT ) // 2
 
-    # Offset of the board, we want it to be centerered
-    X_OFFSET = X_MID - 50
-    Y_OFFSET = Y_MID + 30
+    # Offset of the board
+    X_OFFSET = LENGTH//2 + BOARD_BORDER
+    Y_OFFSET = Y_MID
 
     # Add these constants to anything you wish to render on the board
     X_DISPLACEMENT = X_OFFSET - X_MID

@@ -20,7 +20,9 @@ class Game_Window:
         board.render()
 
         # Render monsters
-        monsters = [Monster.create_from_template("orc", i) for i in range(1,7)]
+        # monsters = [Monster.create_from_template("orc", i) for i in range(1,7)]
+        all_monsters = Monster.generate_monsters()
+        current_monsters = []
 
         while run:
             for event in pygame.event.get():
@@ -30,11 +32,16 @@ class Game_Window:
             # Update the screen
             SCREEN.screen.fill((0,0,0))
             board.render()
-    
-            monsters[0].render()
-            monsters[0].move()
 
+            current_monsters.append(all_monsters.pop())
+
+            for monster in current_monsters:
+                monster.render()
+                monster.move()
             time.sleep(1)
+
+            if len(all_monsters) == 0:
+                run = False
 
             pygame.display.flip()
         pygame.quit()
