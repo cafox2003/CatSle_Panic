@@ -1,5 +1,6 @@
 import pygame
 import math
+from logic.game_logic.constants import BOARD, MONSTER, SCREEN
 
 class Shape:
     def __init__(self, shape_type, color, relative_position=(0, 0), border_width=0, width=0, height=0, radius=0, 
@@ -20,147 +21,103 @@ class Shape:
         self.font_size = font_size
         self.centered = centered
 
-    def get_draw_function(self, board_length, board_height):
+    def get_draw_function(self):
         """Returns a lambda function for drawing the shape on a screen."""
         if self.shape_type == "rectangle":
-            return self._get_rectangle_draw_function(board_length, board_height)
+            return lambda screen: pygame.draw.rect(
+                screen,
+                self.color,
+                (
+                    BOARD.X_OFFSET + self.relative_position[0] - (self.width // 2 if self.centered else 0),  # Adjust X for centering
+                    BOARD.Y_OFFSET + self.relative_position[1] - (self.height // 2 if self.centered else 0),  # Adjust Y for centering
+                    self.width,  # Width of the rectangle
+                    self.height  # Height of the rectangle
+                ),
+                self.border_width
+            )
         elif self.shape_type == "circle":
-            return self._get_circle_draw_function(board_length, board_height)
-        elif self.shape_type == "arc":
-            return self._get_arc_draw_function(board_length, board_height)
-        elif self.shape_type == "line":
-            return self._get_line_draw_function(board_length, board_height)
+            return lambda screen: pygame.draw.circle(
+                screen,
+                self.color,
+                (
+                    BOARD.X_OFFSET + self.relative_position[0],
+                    BOARD.Y_OFFSET + self.relative_position[1],
+                ),
+                self.radius,
+                self.border_width
+            )
         elif self.shape_type == "polygon":
-            return self._get_polygon_draw_function(board_length, board_height)
-        elif self.shape_type == "text":
-            return self._get_text_draw_function(board_length, board_height)
-        else:
-            raise ValueError(f"Unsupported shape type: {self.shape_type}")
-
-    def _get_rectangle_draw_function(self, board_length, board_height):
-        return lambda screen, x_offset, y_offset: pygame.draw.rect(
-            screen,
-            self.color,
-            (
-                (x_offset if self.centered else self.relative_position[0]),  # X-coordinate
-                (y_offset if self.centered else self.relative_position[1]),  # Y-coordinate
-                self.width,  # Width of the rectangle
-                self.height  # Height of the rectangle
-            ),
-            self.border_width
-        )
-
-    # def _get_circle_draw_function(self, board_length, board_height):
-    #     return lambda screen, x_offset, y_offset: pygame.draw.circle(
-    #         screen,
-    #         self.color,
-    #         (
-    #             (x_offset if self.centered else self.relative_position[0]) + board_length // 2,  # Adjust X-coordinate for circle center
-    #             (y_offset if self.centered else self.relative_position[1]) + board_height // 2  # Adjust Y-coordinate for circle center
-    #         ),
-    #         # (
-    #         #     (x_offset if self.centered else self.relative_position[0]) + board_length // 2,  # Adjust X-coordinate for circle center
-    #         #     (y_offset if self.centered else self.relative_position[1]) + board_height // 2  # Adjust Y-coordinate for circle center
-    #         # ),
-    #         self.radius,  # Radius of the circle
-    #         self.border_width
-    #     )
-
-    def _get_circle_draw_function(self, board_length, board_height):
-        return lambda screen, x_offset, y_offset: pygame.draw.circle(
-            screen,
-            self.color,
-            (
-                (self.relative_position[0] if not self.centered else board_length // 2) + x_offset + self.relative_position[0],
-                (self.relative_position[1] if not self.centered else board_height // 2) + y_offset + self.relative_position[1],
-            ),
-            self.radius,  # Radius of the circle
-            self.border_width
-        )
-
-    
-    def _get_polygon_draw_function(self, board_length, board_height):
-        return lambda screen, x_offset, y_offset: pygame.draw.polygon(
+            return lambda screen: pygame.draw.polygon(
                 screen,
                 self.color,
                 [
                     (
-                        board_length/2 + x + (x_offset if self.centered else self.relative_position[0]),
-                        board_height/2 + y + (y_offset if self.centered else self.relative_position[1])
-                        )
-                    for x, y in self.points  # Adjust points based on offsets and centering
-                    ],
+                        BOARD.X_OFFSET + x + self.relative_position[0],
+                        BOARD.Y_OFFSET + y + self.relative_position[1],
+                    )
+                    for x, y in self.points
+                ],
                 self.border_width
-                ) 
-
-    def _get_arc_draw_function(self, board_length, board_height):
-        return lambda screen, x_offset, y_offset: filled_pie(
-            screen,
-            (x_offset if self.centered else self.relative_position[0]) + board_length // 2,  # x center
-            (y_offset if self.centered else self.relative_position[1]) + board_height // 2,  # y center
-            self.radius,  # radius
-            self.angle_start,  # start angle
-            self.angle_end,  # end angle
-            self.color  # color
-        )
-
-
-    def _get_line_draw_function(self, board_length, board_height):
-        return lambda screen, x_offset, y_offset: pygame.draw.line(
-            screen,
-            self.color,
-            (
-                (self.relative_position[0] if not self.centered else board_length // 2) + self.pos_start[0] + x_offset,
-                (self.relative_position[1] if not self.centered else board_height // 2) + self.pos_start[1] + y_offset,
-            ),
-            (
-                (self.relative_position[0] if not self.centered else board_length // 2) + self.pos_end[0] + x_offset,
-                (self.relative_position[1] if not self.centered else board_height // 2) + self.pos_end[1] + y_offset,
-            ),
-            self.border_width
-        )
-    def _get_text_draw_function(self, board_length, board_height):
-        def draw_text(screen, x_offset, y_offset):
-            # Create a font object and render the text
-            font = pygame.font.Font(None, self.font_size)  # Default font with specified size
-            text_surface = font.render(self.text, True, self.color)
-
-            # Rotate the text surface
-            rotated_text = pygame.transform.rotate(text_surface, self.angle_start)  # Use angle_start or another angle if needed
-
-            # Get the new rect after rotation, so we can center it correctly
-            rotated_rect = rotated_text.get_rect(
-                center=(
-                    (self.relative_position[0] if not self.centered else board_length // 2) + x_offset + self.relative_position[0],
-                    (self.relative_position[1] if not self.centered else board_height // 2) + y_offset + self.relative_position[1]
-                )
             )
+        elif self.shape_type == "arc":
+            return lambda screen: filled_pie(
+                screen,
+                BOARD.X_OFFSET + self.relative_position[0],
+                BOARD.Y_OFFSET + self.relative_position[1],
+                self.radius,
+                self.angle_start,
+                self.angle_end,
+                self.color
+            )
+        elif self.shape_type == "line":
+            return lambda screen: pygame.draw.line(
+                screen,
+                self.color,
+                (
+                    BOARD.X_OFFSET + self.pos_start[0],
+                    BOARD.Y_OFFSET + self.pos_start[1],
+                ),
+                (
+                    BOARD.X_OFFSET + self.pos_end[0],
+                    BOARD.Y_OFFSET + self.pos_end[1],
+                ),
+                self.border_width
+            )
+        elif self.shape_type == "text":
+            return lambda screen: self._draw_text(screen)
 
-            # Blit the rotated text
-            screen.blit(rotated_text, rotated_rect)
-        
-        return draw_text
+    def _draw_text(self, screen):
+        """Helper method to render text."""
+        font = pygame.font.Font(None, self.font_size)
+        text_surface = font.render(self.text, True, self.color)
+        rotated_text = pygame.transform.rotate(text_surface, self.angle_start)
+        rotated_rect = rotated_text.get_rect(
+            center=(
+                BOARD.X_OFFSET + self.relative_position[0],
+                BOARD.Y_OFFSET + self.relative_position[1],
+            )
+        )
+        screen.blit(rotated_text, rotated_rect)
 
 def filled_pie(surface, x, y, r, start_angle, stop_angle, color):
     # Convert angles to radians
     POINTS = 100
-
     start_rad = math.radians(start_angle)
     stop_rad = math.radians(stop_angle)
 
     # Start with the center point
     points = [(x, y)]
 
-    # Add points along the arc (12 segments should be smooth enough)
-    for i in range(POINTS):  # 13 points = 12 segments
+    # Add points along the arc
+    for i in range(POINTS):  
         angle = start_rad + (stop_rad - start_rad) * (i / (POINTS-1))
         points.append((
             x + r * math.cos(angle),
             y - r * math.sin(angle)  # Subtract because pygame Y coordinates go down
             ))
-
     # Draw the filled polygon
     return pygame.draw.polygon(surface, color, points)
+
 
 # Return points along the guiding lines, or in relation to them
 def get_hex_points(magnitude, angle_mod=0):
@@ -173,4 +130,4 @@ def get_hex_points(magnitude, angle_mod=0):
 
 # Returns the angle that a point is pointed in
 def get_angle(point):
-    return math.degrees(math.atan2(point[1], point[0]))  # Convert (x, y) to an angle in degrees
+    return math.degrees(math.atan2(point[1], point[0]))  

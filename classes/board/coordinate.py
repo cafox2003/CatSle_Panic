@@ -12,16 +12,14 @@ class Coordinate:
     def calculate_position(self):
         MIDDLE = 2
         
-        #Hex size may be different, so it's calculated by itself
+        #Hex size may be different than the ring size, so it's calculated separately
         if self.ring == BOARD.RINGS[0]:
             magnitude = BOARD.HEXAGON_DISTANCE // MIDDLE
         else:
             magnitude = BOARD.HEXAGON_DISTANCE + BOARD.RINGS.index(self.ring)*BOARD.RING_DISTANCE - BOARD.RING_DISTANCE//MIDDLE
 
         position = get_hex_points(magnitude, 30)[(((self.number+3) % 6))] #Logic to put numbers in the right order
-
         self.angle = (int) (get_angle(position))
-
         return self.center_position(position)
 
     # Center the piece according to the screen size
