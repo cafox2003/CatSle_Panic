@@ -40,3 +40,11 @@
 #
 #     pygame.display.flip()
 # pygame.quit()
+
+
+# card_2 = Card(">:D", "An EVIL guy...", image_path="images/face.png")
+# card_3 = Card("D:", "He's worried", image_path="images/face.png")
+# card_4 = Card(":3", "A little face", image_path="images/face.png")
+# card_5 = Card(":3", "A little face", image_path="images/face.png")
+# card_6 = Card(":3", "A little face", image_path="images/face.png")
+# all_cards = [my_card, card_2, card_3, card_4, card_5]
