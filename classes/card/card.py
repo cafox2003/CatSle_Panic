@@ -1,6 +1,6 @@
 import pygame
 from logic.display_logic.render import Render
-from logic.game_logic.constants import SCREEN, CARD
+from logic.game_logic.constants import SCREEN, CARD, BOARD
 
 class Card:
     def __init__(self, name, description, image_path):
@@ -33,12 +33,22 @@ class Card:
         image = pygame.transform.scale(raw_image, (CARD.CARD_WIDTH, CARD.CARD_HEIGHT))
         return image
 
-    # NOT TESTED
     @staticmethod
-    def render_deck(cards, x, y, distance):
+    def render_deck(cards, y, distance):
+        if not cards:
+            return
+            
+        # Calculate the total width of the deck
+        deck_width = (len(cards) * CARD.CARD_WIDTH) + ((len(cards) - 1) * distance)
+        
+        # Adjust x to align the midpoint of the deck with the calculated x
+        start_x = CARD.DECK_MIDPOINT - (deck_width // 2)
+        
+        # Render each card
         for c in cards:
-            self.render(c, x, y)
-            x += (distance + CARD.CARD_WIDTH)
+            c.render(start_x, y)
+            start_x += (CARD.CARD_WIDTH + distance)
+
 
 if __name__ == "__main__":
     my_card = Card(":3", "A little face", image="../images/face.png")

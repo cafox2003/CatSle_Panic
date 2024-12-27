@@ -1,5 +1,8 @@
 import pygame
 
+class COLOR:
+    BACKGROUND = (133, 128, 121)
+
 class SCREEN:
     LENGTH = 1920
     HEIGHT = 1080
@@ -27,6 +30,7 @@ class BOARD:
     TEXT_COLOR = (255,255,255)
     BORDER_COLOR = (0,0,0)
     SEGMENT_COLORS = [(255,0,0),(0,255,0),(0,0,255)]
+    SEGMENT_COLOR_NAMES = ["Red", "Green", "Blue"]
     CASTLE_COLOR = (100, 100, 100)
     FOREST_COLOR = (63, 117, 57)
     BOARD_COLOR = (118, 168, 96)
@@ -54,17 +58,26 @@ class MONSTER:
     }
 
 class CARD:
-    SCALE = 100
+    SCALE = 70
     CARD_AR = (2,3) # Card aspect ratio
-    Y_DISPLACE = 20 # Distance from the top of text
+    Y_DISPLACE = (int) (SCALE//5) # Distance from the top of text
     CARD_WIDTH = CARD_AR[0] * SCALE
     CARD_HEIGHT = CARD_AR[1] * SCALE
 
     FONT_TYPE = 'arial'
-    FONT_SIZE = 20
-    # FONT = pygame.font.SysFont(FONT_TYPE, FONT_SIZE)
-    # FONT = None
+    FONT_SIZE = 18
     BLACK = (0, 0, 0)
+
+    # Constant to keep track of the midpoint the deck should be at
+    DECK_MIDPOINT = SCREEN.LENGTH - ((SCREEN.LENGTH - (BOARD.BOARD_BORDER + BOARD.LENGTH)) // 2)
+
+class DECK:
+    DECK_MIDPOINT = SCREEN.LENGTH - ((SCREEN.LENGTH - (BOARD.BOARD_BORDER + BOARD.LENGTH)) // 2)
+
+    TOP_DECK_POS = (BOARD.BOARD_BORDER)
+    BOTTOM_DECK_POS = (SCREEN.HEIGHT - BOARD.BOARD_BORDER - CARD.CARD_HEIGHT)
+
+    BETWEEN_DISTANCE = 30
 
 # class GAME_WINDOW:
     # GAME_WINDOW = Game_Window()
