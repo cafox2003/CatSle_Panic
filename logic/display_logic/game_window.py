@@ -2,7 +2,6 @@ import pygame
 import time
 from classes.card.card import Card
 from classes.card.deck import Deck
-from classes.warrior import Warrior
 from classes.board.board import Board
 from classes.board.coordinate import Coordinate
 from classes.monster import Monster
@@ -22,11 +21,18 @@ class Game_Window:
         board.render()
         my_deck = Deck(Deck.load_all_cards()[0:5], "bottom")
 
-        # Render monsters
+        all_monsters = Monster.generate_monsters()
+        current_monsters = []
+
         while run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    clicked_card = my_deck.check_card_click(mouse_pos)
+                    if clicked_card:
+                        print(f"Clicked on card: {clicked_card.name}")
 
             # Update the screen
             SCREEN.screen.fill(COLOR.BACKGROUND)
@@ -34,6 +40,17 @@ class Game_Window:
 
             # Render the deck
             my_deck.render()
+
+            current_monsters.append(all_monsters.pop())
+            # current_monsters.append(all_monsters.pop())
+            for monster in current_monsters:
+                if monster.health == 0:
+                    current_monsters.remove(monster)
+                else:
+                    monster.render()
+                    monster.move()
+                    # monster.damage()
+            time.sleep(2)
 
             pygame.display.flip()
         pygame.quit()

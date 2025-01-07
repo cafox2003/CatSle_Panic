@@ -5,7 +5,6 @@ from classes.board.coordinate import Coordinate
 from logic.game_logic.constants import BOARD, MONSTER, SCREEN
 
 class Monster:
-    #TODO: Make default_image.png
     def __init__(self, name, health, image_path="images/default_image.png", event="none", number=1):
         self.name = name 
         self.health = health 
@@ -14,6 +13,7 @@ class Monster:
         self.event = event 
 
         self.coordinate = Coordinate(BOARD.RINGS[-1], number) # start off in the forest ring
+        self.angle_mod = 0 
 
     @classmethod
     def create_from_template(cls, template_name, number = 1):
@@ -55,20 +55,35 @@ class Monster:
         return image
 
     def render(self):
-        # Rotate the image to the default location
-        # TODO: Define angle by the monster's health
-        rotated_image = pygame.transform.rotate(self.image, 270 -self.coordinate.angle)
+        # Rotate the image to the correct angle based on the coordinate and angle_mod
+        rotated_image = pygame.transform.rotate(self.image, 270 - self.coordinate.angle - self.angle_mod)
 
-        #Center the image coordinate to the x/y displacement
+        # Get the size of the rotated image
         rotated_width, rotated_height = rotated_image.get_size()
-        render_position = (
-            self.coordinate.position[0] - rotated_width // 2,
-            self.coordinate.position[1] - rotated_height // 2,
-        )
 
-        #Render the image
-        # SCREEN.screen.blit(rotated_image, render_position)
+        # Calculate the new position to ensure the image is centered at the monster's coordinates
+
+        if self.health == self.max_health:
+            render_position = (
+                self.coordinate.position[0] - rotated_width // 2,
+                self.coordinate.position[1] - rotated_height // 2
+            )
+        else:
+            render_position = (
+                self.coordinate.position[0] - (rotated_width // 2 + rotated_width // 5),
+                self.coordinate.position[1] - (rotated_height // 2 + rotated_height // 5)
+            )
+
+        # Render the rotated image at the calculated position
         SCREEN.screen.blit(rotated_image, render_position)
+
+    def damage(self):
+        self.health -= 1
+
+        if self.health == 0:
+            pass
+
+        self.angle_mod = (self.max_health - self.health)*120
 
 if __name__ == "__main__":
     my_monster = Monster.create_from_template("troll")

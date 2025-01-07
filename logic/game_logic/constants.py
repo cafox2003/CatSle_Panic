@@ -53,8 +53,11 @@ class BOARD:
 class MONSTER:
     MONSTER_TEMPLATES = {
         "goblin": {"name": "Goblin", "health": 1, "image_path": "images/monsters/goblin.png"},
+        # "goblin": {"name": "Goblin", "health": 1, "image_path": "images/face.png"},
         "orc": {"name": "Orc", "health": 2, "image_path": "images/monsters/orc.png"},
+        # "orc": {"name": "Orc", "health": 2, "image_path": "images/face.png"},
         "troll": {"name": "Troll", "health": 3, "image_path": "images/monsters/troll.png"}
+        # "troll": {"name": "Troll", "health": 3, "image_path": "images/face.png"}
     }
 
 class CARD:

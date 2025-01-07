@@ -2,7 +2,8 @@ import random
 
 from logic.game_logic.constants import DECK, CARD, BOARD
 from classes.card.card import Card
-from classes.warrior import Warrior
+from classes.card.warrior_card import Warrior_Card
+# from classes.warrior import Warrior
 
 
 class Deck:
@@ -44,15 +45,20 @@ class Deck:
         for ring in BOARD.RINGS[1:-1]: 
             for color in BOARD.SEGMENT_COLOR_NAMES:
                 for i in range(3):
-                    all_warriors.append(Warrior(ring, color))
-            all_warriors.append(Warrior(ring, "any_color"))
+                    all_warriors.append(Warrior_Card(ring, color))
+            all_warriors.append(Warrior_Card(ring, "any_color"))
 
 
         for color in BOARD.SEGMENT_COLOR_NAMES:
-            all_warriors.append(Warrior("hero", color))
+            all_warriors.append(Warrior_Card("hero", color))
 
-        all_cards = [warrior.card for warrior in all_warriors]
+        all_cards = [warrior for warrior in all_warriors]
 
         random.shuffle(all_cards)
         return all_cards
 
+    def check_card_click(self, mouse_pos):
+        for card in self.cards:
+            if card.check_click(mouse_pos):
+                return card  # Return the clicked card
+        return None  # No card clicked
