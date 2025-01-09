@@ -59,6 +59,18 @@ class MONSTER:
         "troll": {"name": "Troll", "health": 3, "image_path": "images/monsters/troll.png"}
         # "troll": {"name": "Troll", "health": 3, "image_path": "images/face.png"}
     }
+    
+    DIAGONAL_SIZE = 0
+
+    @staticmethod
+    def initialize():
+        image_path = MONSTER.MONSTER_TEMPLATES["goblin"]["image_path"]
+
+        image = pygame.image.load(image_path).convert_alpha()
+        image_width, image_height = image.get_size()
+
+        # Scale image considering the maximum size after rotation
+        MONSTER.DIAGONAL_SIZE = (image_width**2 + image_height**2) ** 0.5
 
 class CARD:
     SCALE = 70

@@ -1,4 +1,4 @@
-from logic.game_logic.constants import BOARD, SCREEN
+from logic.game_logic.constants import BOARD, SCREEN, MONSTER
 from classes.board.shape import get_hex_points, get_angle
 
 class Coordinate:
@@ -17,6 +17,8 @@ class Coordinate:
             magnitude = BOARD.HEXAGON_DISTANCE // MIDDLE
         else:
             magnitude = BOARD.HEXAGON_DISTANCE + BOARD.RINGS.index(self.ring)*BOARD.RING_DISTANCE - BOARD.RING_DISTANCE//MIDDLE
+
+        # magnitude -= MONSTER.DIAGONAL_SIZE // 2
 
         position = get_hex_points(magnitude, 30)[(((self.number+3) % 6))] #Logic to put numbers in the right order
         self.angle = (int) (get_angle(position))
