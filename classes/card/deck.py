@@ -48,7 +48,7 @@ class Deck:
                     all_warriors.append(Warrior_Card(ring, color))
             all_warriors.append(Warrior_Card(ring, "any_color"))
 
-
+        # Add the hero cards for every color
         for color in BOARD.SEGMENT_COLOR_NAMES:
             all_warriors.append(Warrior_Card("hero", color))
 

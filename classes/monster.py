@@ -15,6 +15,7 @@ class Monster:
 
         self.coordinate = Coordinate(BOARD.RINGS[-1], number) # start off in the forest ring
         self.angle_mod = 0 
+        self.is_highlighted = True
 
     @classmethod
     def create_from_template(cls, template_name, number = 1):
@@ -71,16 +72,16 @@ class Monster:
 
         # Calculate the new position to ensure the image is centered at the monster's coordinates
 
-        if self.health == self.max_health:
-            render_position = (
-                self.coordinate.position[0] - rotated_width // 2,
-                self.coordinate.position[1] - rotated_height // 2
-            )
-        else:
-            render_position = (
-                self.coordinate.position[0] - (rotated_width // 2),
-                self.coordinate.position[1] - (rotated_height // 2)
-            )
+        render_position = (
+            self.coordinate.position[0] - rotated_width // 2,
+            self.coordinate.position[1] - rotated_height // 2
+        )
+        # If the monster is highlighted, draw a highlight effect
+
+        if self.is_highlighted:
+            # Draw a highlight circle
+            highlight_radius = max(rotated_width, rotated_height) // 2 + 10  # Adjust as needed
+            pygame.draw.circle(SCREEN.screen, (255, 255, 0), self.coordinate.position, highlight_radius, 3)
 
         # Render the rotated image at the calculated position
         SCREEN.screen.blit(rotated_image, render_position)
