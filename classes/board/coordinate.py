@@ -2,10 +2,13 @@ from logic.game_logic.constants import BOARD, SCREEN, MONSTER
 from classes.board.shape import get_hex_points, get_angle
 
 class Coordinate:
-    def __init__(self, ring, number, color=None):
-        self.ring = ring
+    def __init__(self, ring, number):
+        self.ring = ring.lower()
         self.number = number
-        self.color = color
+
+        self.color = self.get_color(self.number).lower()
+
+        self.set_color() # Sets color based on the number
         self.angle = 0
         self.position = self.calculate_position()
 
@@ -16,11 +19,11 @@ class Coordinate:
         if self.ring == BOARD.RINGS[0]:
             magnitude = BOARD.HEXAGON_DISTANCE // MIDDLE
         else:
-            magnitude = BOARD.HEXAGON_DISTANCE + BOARD.RINGS.index(self.ring)*BOARD.RING_DISTANCE - BOARD.RING_DISTANCE//MIDDLE
+            magnitude = BOARD.HEXAGON_DISTANCE + BOARD.RINGS.index(self.ring.title())*BOARD.RING_DISTANCE - BOARD.RING_DISTANCE//MIDDLE
 
         # magnitude -= MONSTER.DIAGONAL_SIZE // 2
 
-        position = get_hex_points(magnitude, 30)[(((self.number+3) % 6))] #Logic to put numbers in the right order
+        position = get_hex_points(magnitude, 30)[(self.number + 3) % 6]  # Logic to put numbers in the correct order
         self.angle = (int) (get_angle(position))
         return self.center_position(position)
 
@@ -30,15 +33,31 @@ class Coordinate:
         new_y = BOARD.Y_OFFSET + position[1]
         new_position = (new_x, new_y)
         return new_position
+
+    # Return the color segment based on the number
+    @staticmethod
+    def get_color(number):
+        index = ((number - 1) // 2 + 1) % 3 
+        return BOARD.SEGMENT_COLOR_NAMES[index]
+
+    def set_color(self):
+        # print(f"Old color: {self.color}")
+        self.color = self.get_color(self.number).lower()
+        # print(f"New color: {self.color}\n\n")
+
     
     # Moves the coordinate forward
     def move(self):
-        if self.ring == BOARD.RINGS[0]:
-            self.number = self.next_number(self.number) # Move clockwise around the castle ring
+        # TODO: Remove instances of .lower() and instead store "BOARD.INTERNAL_RINGS" as lowercase rings
+        if self.ring == BOARD.RINGS[0].lower():  # Ensure consistent comparison for the castle ring
+            self.number = self.next_number(self.number)  # Move clockwise around the castle ring
         else:
-            self.ring = BOARD.RINGS[BOARD.RINGS.index(self.ring)-1] # Move one ring inward
+            # Move one ring inward
+            ring_index = BOARD.RINGS.index(self.ring.title())
+            self.ring = BOARD.RINGS[ring_index - 1].lower()
 
         self.position = self.calculate_position()
+    self.set_color()  # Recalculate color after updating ring and position
 
     # Returns the next (clockwise) number.
     @staticmethod

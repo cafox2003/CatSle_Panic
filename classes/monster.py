@@ -15,7 +15,7 @@ class Monster:
 
         self.coordinate = Coordinate(BOARD.RINGS[-1], number) # start off in the forest ring
         self.angle_mod = 0 
-        self.is_highlighted = True
+        self.is_highlighted = False
 
     @classmethod
     def create_from_template(cls, template_name, number = 1):

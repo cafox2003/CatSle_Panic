@@ -3,7 +3,8 @@ from logic.display_logic.render import Render
 from logic.game_logic.constants import SCREEN, CARD, BOARD
 
 class Card:
-    def __init__(self, display_name, description, image_path):
+    def __init__(self, card_type, display_name, description, image_path):
+        self.card_type = card_type 
         self.display_name = display_name 
         self.description = description 
         self.image = self.render_image(image_path)

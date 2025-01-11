@@ -21,10 +21,6 @@ class Game_Window:
 
     def main_loop(self): #Maybe change name
         run = True
-        # game_state = Game_State()
-
-        # move_button = Button(1500, 200, 150, 50, "Move", self.game_state.move_monsters)  # Create the button
-        # add_button = Button(1700, 200, 150, 50, "Add", self.game_state.add_monster)
 
         for _ in range(10):
             self.game_state.add_monster()
@@ -35,15 +31,11 @@ class Game_Window:
                     run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.check_click() 
-                    # mouse_pos = pygame.mouse.get_pos()
-                    # clicked_card = my_deck.check_card_click(mouse_pos)
-                    # if clicked_card:
-                    #     print(f"Clicked on card: {clicked_card.name}")
 
             self.update_screen()
-
         pygame.quit()
 
+    # Calls everything's render method to update the screen
     def update_screen(self):
         # Board
         SCREEN.screen.fill(COLOR.BACKGROUND)
@@ -63,6 +55,7 @@ class Game_Window:
 
         pygame.display.flip()
 
+    # Handle all clicks
     def check_click(self):
         mouse_pos = pygame.mouse.get_pos()
 
@@ -71,7 +64,6 @@ class Game_Window:
 
     # Handle button clicks
     def check_buttons(self, mouse_pos):
-        mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
             button.check_click(mouse_pos)
 
@@ -80,5 +72,18 @@ class Game_Window:
         for player in self.game_state.players:
             clicked_card = player.deck.check_card_click(mouse_pos)
             if clicked_card:
-                print(f"Clicked on card: {clicked_card.name}")
+                # print(f"Clicked on card: {clicked_card.ring}")
+                if clicked_card.card_type == "Warrior":
+                    for monster in self.game_state.active_monsters:
+                        # print(f"Monster ring: {monster.coordinate.ring}\tCard ring: {clicked_card.ring}\nMonster color: {monster.coordinate.color}\tCard color: {clicked_card.color}")
+                        if (monster.coordinate.ring == clicked_card.ring) and (monster.coordinate.color == clicked_card.color):
+                            monster.is_highlighted = True
+                        elif (monster.coordinate.ring == clicked_card.ring) and (clicked_card.color == "any_color"):
+                            monster.is_highlighted = True
+                        elif (clicked_card.ring == "hero" and monster.coordinate.ring != "forest") and (monster.coordinate.color == clicked_card.color):
+                            monster.is_highlighted = True
+                        else:
+                            monster.is_highlighted = False
+
+                self.update_screen()
 

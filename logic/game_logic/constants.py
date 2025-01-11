@@ -86,6 +86,8 @@ class CARD:
     # Constant to keep track of the midpoint the deck should be at
     DECK_MIDPOINT = SCREEN.LENGTH - ((SCREEN.LENGTH - (BOARD.BOARD_BORDER + BOARD.LENGTH)) // 2)
 
+    TYPES = ["Warrior"]
+
 class DECK:
     DECK_MIDPOINT = SCREEN.LENGTH - ((SCREEN.LENGTH - (BOARD.BOARD_BORDER + BOARD.LENGTH)) // 2)
 
