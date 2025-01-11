@@ -57,7 +57,7 @@ class Coordinate:
             self.ring = BOARD.RINGS[ring_index - 1].lower()
 
         self.position = self.calculate_position()
-    self.set_color()  # Recalculate color after updating ring and position
+        self.set_color()  # Recalculate color after updating ring and position
 
     # Returns the next (clockwise) number.
     @staticmethod
