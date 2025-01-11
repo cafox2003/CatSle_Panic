@@ -1,14 +1,13 @@
-from classes.monster import Monster
+from classes.monster.monster_deck import Monster_Deck
 from classes.player import Player
 from classes.card.deck import Deck
 from classes.board.board import Board
-from logic.game_logic.constants import SCREEN, COLOR
 
 class Game_State:
     def __init__(self, players = 1):# Add everything
-        self.monster_deck = Monster.generate_monsters()
-        self.active_monsters = []
+        self.monster_deck = Monster_Deck()
 
+        # TODO: Create a class that handles the discard_pile as well
         self.card_deck = Deck.load_all_cards() # ADD this
         self.discard_pile = [] # ADD this
 
@@ -27,31 +26,3 @@ class Game_State:
         draw_new_monsters - boolean that keeps track of if more monsters can be drawn (missing hasn't been drawn, monsters still left)
         active_monsters - List of all active monsters,
        """
-
-
-    def add_monster(self):
-        self.active_monsters.append(self.monster_deck.pop())
-
-    def move_monsters(self):
-        for monster in self.active_monsters:
-            if monster.health == 0:
-                active_monsters.remove(monster)
-            else:
-                monster.move()
-
-    # TODO: Move to game window
-    def update_screen(self):
-        # Board
-        SCREEN.screen.fill(COLOR.BACKGROUND)
-        self.board.render()
-
-        #Decks
-        for p in self.players:
-            p.deck.render()
-
-        #Monsters
-        for monster in self.active_monsters:
-            monster.render()
-
-    
-

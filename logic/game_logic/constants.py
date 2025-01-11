@@ -16,8 +16,6 @@ class BOARD:
     # Border that the board will be surrounded with. Number of pixels
     BOARD_BORDER = 60
 
-    # LENGTH = 1000
-    # HEIGHT = LENGTH
 
     HEIGHT = SCREEN.HEIGHT - 2*BOARD_BORDER
     LENGTH = HEIGHT
@@ -95,6 +93,13 @@ class DECK:
     BOTTOM_DECK_POS = (SCREEN.HEIGHT - BOARD.BOARD_BORDER - CARD.CARD_HEIGHT)
 
     BETWEEN_DISTANCE = 30
+
+# class GAME_STATE:
+#     game_state = None
+#
+#     @staticmethod
+#     def initialize():
+#         game_state = Game_State()
 
 # class GAME_WINDOW:
     # GAME_WINDOW = Game_Window()
