@@ -13,9 +13,9 @@ class Monster_Deck():
         monsters_to_move = list(self.active_monsters)  # Copy to prevent modification during iteration
         processed_monsters = set()  # Keep track of monsters already moved
 
-        for monster in monsters_to_move:
-            monster.is_highlighted = False  # Remove any previous highlight
+        self.unhighlight_monsters() # unhighlight all monsters
 
+        for monster in monsters_to_move:
             if monster in processed_monsters:
                 continue  # Skip if this monster has already been moved
 
@@ -44,6 +44,9 @@ class Monster_Deck():
             else:
                 monster.is_highlighted = False
 
+    def unhighlight_monsters(self):
+        for monster in self.active_monsters:
+            monster.is_highlighted = False
 
     # Returns a list of monsters that are in the corresponding ring/color
     # TODO: Add constants in for the raw strings

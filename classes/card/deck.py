@@ -9,6 +9,8 @@ from classes.card.warrior_card import Warrior_Card
 class Deck:
     def __init__(self, cards, position, x=None, y=None):
         self.cards = cards
+        self.active_card = None
+
         self.position = position
         self.x = x
         self.y = y
@@ -55,10 +57,20 @@ class Deck:
         all_cards = [warrior for warrior in all_warriors]
 
         random.shuffle(all_cards)
-        return all_cards
+        return all_cards[0:12]
 
     def check_card_click(self, mouse_pos):
         for card in self.cards:
             if card.check_click(mouse_pos):
+                self.active_card = card
                 return card  # Return the clicked card
         return None  # No card clicked
+
+    # Remove the active card
+    def remove_card(self, card_to_remove = None ):
+        if card_to_remove == None:
+           card_to_remove = self.active_card
+
+        self.cards.remove(card_to_remove)
+
+        return card_to_remove

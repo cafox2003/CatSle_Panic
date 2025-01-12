@@ -1,19 +1,38 @@
+import random
 from classes.card.deck import Deck
 
 class Player:
-    def __init__(self, deck, discard, player_location = "bottom"):
-        self.hand = self.load_hand(deck, discard)
-        self.deck = Deck(self.hand, player_location)
+    def __init__(self, full_deck, discard, player_location = "bottom"):
+        self.hand_cards = []
+        self.deck = None
 
-    @staticmethod
-    def load_hand(deck, discard, num_cards=6): #Add into a constant
-        hand = []
+        self.player_location = player_location
 
-        # Add the the card to the hand and discard, and remove from the hand
-        for _ in range(num_cards):
-            new_card = deck.pop() 
+        self.load_hand(full_deck, discard)
 
-            hand.append(new_card)
-            discard.append(new_card)
 
-        return hand
+    def load_hand(self, full_deck, discard, num_cards=6): #Add into a constant
+        # hand = []
+        cards_needed = num_cards - len(self.hand_cards)
+
+        # Add the the card to the hand, and remove from the hand
+        for _ in range(cards_needed):
+            if full_deck:
+                new_card = full_deck.pop() 
+            else:
+                random.shuffle(discard)
+                
+                full_deck = discard
+                discard = []
+
+                new_card = full_deck.pop()
+
+            self.hand_cards.append(new_card)
+
+        # self.hand_cards = hand
+        self.deck = Deck(self.hand_cards, self.player_location)
+
+    def remove_card(self, discard, card_to_remove = None):
+        removed_card = self.deck.remove_card(card_to_remove)
+        if removed_card != None:
+            discard.append(removed_card)

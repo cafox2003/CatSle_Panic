@@ -14,7 +14,8 @@ class Game_Window:
         # TODO: Make another class and maybe store button definitions in constants
         self.buttons = [
             Button(1500, 200, 150, 50, "Move", Global_State.game_state.monster_deck.move_monsters), # Move button
-            Button(1700, 200, 150, 50, "Add", Global_State.game_state.monster_deck.add_monster) # Add button
+            Button(1700, 200, 150, 50, "Add", Global_State.game_state.monster_deck.add_monster), # Add button
+            Button(1300, 200, 150, 50, "Hi", Global_State.game_state.draw_cards) # Add button
                 ]
 
         self.main_loop()
@@ -83,7 +84,12 @@ class Game_Window:
     #Handle monster clicks
     def check_monsters(self, mouse_pos):
         for monster in Global_State.game_state.monster_deck.active_monsters:
-            if monster.check_click(mouse_pos):
+            if monster.check_click(mouse_pos) and monster.is_highlighted:
+                # Global_State.game_state.players[0].deck.remove_card()
+                Global_State.game_state.remove_card()
+
+                Global_State.game_state.monster_deck.unhighlight_monsters()
+
                 is_defeated = monster.damage()  # Damage the monster
                 if is_defeated:
                     Global_State.game_state.monster_deck.defeat_monster(monster)

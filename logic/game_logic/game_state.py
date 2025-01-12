@@ -11,7 +11,7 @@ class Game_State:
         self.card_deck = Deck.load_all_cards() # ADD this
         self.discard_pile = [] # ADD this
 
-        self.players = [Player(deck = self.card_deck, discard = self.discard_pile)]
+        self.players = [Player(full_deck = self.card_deck, discard = self.discard_pile)]
         
         self.board = Board()
 
@@ -26,3 +26,13 @@ class Game_State:
         draw_new_monsters - boolean that keeps track of if more monsters can be drawn (missing hasn't been drawn, monsters still left)
         active_monsters - List of all active monsters,
        """
+
+    def draw_cards(self, player = None):
+        if player == None:
+            player = self.players[0]
+        player.load_hand(self.card_deck, self.discard_pile, 6)
+
+    def remove_card(self, player = None):
+        if player == None:
+            player = self.players[0]
+        player.remove_card(self.discard_pile)
