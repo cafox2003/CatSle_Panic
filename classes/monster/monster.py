@@ -17,14 +17,16 @@ class Monster:
         self.angle_mod = 0 
         self.is_highlighted = False
 
+        self.rect = pygame.Rect(0, 0, 0, 0)
+
     @classmethod
     def create_from_template(cls, template_name, number = 1):
             template = MONSTER.MONSTER_TEMPLATES[template_name]
             return cls(name = template['name'], health = template['health'], 
                        image_path = template['image_path'], number = number)
 
-    def move(self):
-        self.coordinate.move()
+    def move(self, num_monsters=1, monster_pos=1):
+        self.coordinate.move(num_monsters, monster_pos)
 
     @staticmethod
     def generate_monsters(num_monsters=20):
@@ -41,7 +43,6 @@ class Monster:
         all_monster_types = list(MONSTER.MONSTER_TEMPLATES.keys()) # Make a constant?
 
         # Choose a random monster if there is no valid monster type inputted
-        # if ((monster_type == None) or (monster_type not in all_monster_types)):
         if ((monster_type == None)):
             monster_type = random.choice(all_monster_types)
 
@@ -78,6 +79,9 @@ class Monster:
         )
         # If the monster is highlighted, draw a highlight effect
 
+        # Update the rect's position and size
+        self.rect = pygame.Rect(render_position, (rotated_width, rotated_height))
+
         if self.is_highlighted:
             # Draw a highlight circle
             highlight_radius = max(rotated_width, rotated_height) // 2 + 10  # Adjust as needed
@@ -86,14 +90,18 @@ class Monster:
         # Render the rotated image at the calculated position
         SCREEN.screen.blit(rotated_image, render_position)
 
+    def check_click(self, mouse_pos):
+        return self.rect.collidepoint(mouse_pos)
+
     def damage(self):
         self.health -= 1
 
-        if self.health == 0:
-            # TODO: do something
-            pass
+        if self.health <= 0:
+            print(f"Monster {self.name} defeated!")
+            return True  # Indicate the monster should be removed
 
-        self.angle_mod = (self.max_health - self.health)*120
+        self.angle_mod = (self.max_health - self.health) * 120
+        return False
 
 if __name__ == "__main__":
     my_monster = Monster.create_from_template("troll")

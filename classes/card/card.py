@@ -8,7 +8,7 @@ class Card:
         self.display_name = display_name 
         self.description = description 
         self.image = self.render_image(image_path)
-        self.rect = self.rect = pygame.Rect(0, 0, CARD.CARD_WIDTH, CARD.CARD_HEIGHT)
+        self.rect = pygame.Rect(0, 0, CARD.CARD_WIDTH, CARD.CARD_HEIGHT)
         
     def render(self, x, y):
 
