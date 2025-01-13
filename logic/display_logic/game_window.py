@@ -4,6 +4,9 @@ from logic.game_logic.constants import SCREEN, MONSTER, COLOR
 from logic.game_logic.global_state import Global_State 
 from logic.display_logic.button import Button
 
+from classes.board.castle.castle import Castle
+from logic.game_logic.constants import SCREEN, BOARD
+
 class Game_Window:
     def __init__(self):
         pygame.init()
@@ -13,9 +16,10 @@ class Game_Window:
         
         # TODO: Make another class and maybe store button definitions in constants
         self.buttons = [
-            Button(1500, 200, 150, 50, "Move", Global_State.game_state.monster_deck.move_monsters), # Move button
-            Button(1700, 200, 150, 50, "Add", Global_State.game_state.monster_deck.add_monster), # Add button
-            Button(1300, 200, 150, 50, "Hi", Global_State.game_state.draw_cards) # Add button
+            # Button(1500, 200, 150, 50, "Move", Global_State.game_state.monster_deck.move_monsters), # Move button
+            # Button(1700, 200, 150, 50, "Add", Global_State.game_state.monster_deck.add_monster), # Add button
+            # Button(1300, 200, 150, 50, "Draw cards", Global_State.game_state.draw_cards), # Add button
+            Button(1100, 200, 150, 50, "Next turn", Global_State.game_state.next_turn) # Add button
                 ]
 
         self.main_loop()
@@ -23,7 +27,7 @@ class Game_Window:
     def main_loop(self): #Maybe change name
         run = True
 
-        for _ in range(10):
+        for _ in range(6):
             Global_State.game_state.monster_deck.add_monster()
 
         while run:
@@ -53,6 +57,9 @@ class Game_Window:
         # Buttons
         for button in self.buttons:
             button.render()
+
+        # my_castle = Castle(2, BOARD.HEXAGON_DISTANCE)
+        # my_castle.render()
 
         pygame.display.flip()
 

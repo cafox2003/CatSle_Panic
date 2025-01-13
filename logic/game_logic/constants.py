@@ -16,6 +16,8 @@ class BOARD:
     # Border that the board will be surrounded with. Number of pixels
     BOARD_BORDER = 60
 
+    HEX_BORDER_WIDTH = 6
+    CIRCLE_BORDER_WIDTH = HEX_BORDER_WIDTH - 1
 
     HEIGHT = SCREEN.HEIGHT - 2*BOARD_BORDER
     LENGTH = HEIGHT
@@ -30,6 +32,8 @@ class BOARD:
     SEGMENT_COLORS = [(255,0,0),(0,255,0),(0,0,255)]
     SEGMENT_COLOR_NAMES = ["Red", "Green", "Blue"]
     CASTLE_COLOR = (100, 100, 100)
+    WALL_COLOR = (170, 170, 170)
+    # WALL_COLOR = (255,255,255)
     FOREST_COLOR = (63, 117, 57)
     BOARD_COLOR = (118, 168, 96)
 

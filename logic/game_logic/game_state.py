@@ -36,3 +36,11 @@ class Game_State:
         if player == None:
             player = self.players[0]
         player.remove_card(self.discard_pile)
+
+    def next_turn(self):
+        self.monster_deck.move_monsters()
+        
+        for i in range(2):
+            self.monster_deck.add_monster()
+
+        self.draw_cards()

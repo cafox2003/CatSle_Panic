@@ -1,13 +1,16 @@
 import pygame
-import pygame.gfxdraw
 import math
 from classes.board.shape import Shape, get_hex_points, get_angle
 from logic.game_logic.constants import SCREEN, BOARD
+from classes.board.castle.castle import Castle
 
 class Board:
     def __init__(self):
         self.shapes = []
+        self.castles = []
         self.create_shapes()
+        self.create_castles()
+
 
     def add_shape(self, **kwargs):
         shape = Shape(**kwargs)
@@ -16,6 +19,16 @@ class Board:
     def render(self):
         for shape in self.shapes:
             shape(SCREEN.screen)
+
+        for castle in self.castles:
+            shape = castle.shape
+            if not castle.destroyed:
+                shape(SCREEN.screen)
+
+    def create_castles(self):
+        self.castles = []
+        for i in range(1,7):
+            self.castles.append(Castle(i, BOARD.HEXAGON_DISTANCE))
 
     def create_shapes(self):
         # Add the centered square
@@ -61,7 +74,7 @@ class Board:
                 color=c,
                 points=hexagon_points,
                 centered=True,
-                border_width = 6*(i) # Will either be 6 or zero
+                border_width = BOARD.HEX_BORDER_WIDTH*(i) # Will either be 6 or zero
             )
 
         # Draw circle outlines (the "target")
@@ -71,7 +84,7 @@ class Board:
                 color=BOARD.BORDER_COLOR,
                 radius=BOARD.LENGTH/2-(r*BOARD.RING_DISTANCE),
                 centered=True,
-                border_width = 5
+                border_width = BOARD.CIRCLE_BORDER_WIDTH
             )
 
         # Angled lines, for every angle from 30 to 360 in 60 deg increments
@@ -83,7 +96,7 @@ class Board:
                 pos_start=(0, 0),
                 pos_end=a,
                 centered=True,
-                border_width = 5
+                border_width = BOARD.CIRCLE_BORDER_WIDTH 
             )
 
         # Circles with numbers in them
@@ -134,3 +147,22 @@ class Board:
             font_size=BOARD.RING_FONT_SIZE,  # Adjust font size as needed
             centered=True
         )
+
+        # for number in [x for x in range(1,7)]: 
+        #     # number = 1
+        #     # print(len(line_hex_points))
+        #
+        #     line_hex_points = get_hex_points(BOARD.HEXAGON_DISTANCE, 60) 
+        #     start_point = line_hex_points[(number - 1 + 3) % 6]
+        #     end_point = line_hex_points[(number + 3) % 6]
+        #
+        #     # print(f"Creating line from {start_point} to {end_point}")  # Debug output
+        #
+        #     self.add_shape(
+        #         shape_type="line",
+        #         color = BOARD.WALL_COLOR,
+        #         pos_start = start_point,
+        #         pos_end = end_point,
+        #         # centered=True,
+        #         border_width = BOARD.HEX_BORDER_WIDTH
+        #     )

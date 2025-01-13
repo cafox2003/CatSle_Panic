@@ -57,7 +57,7 @@ class Deck:
         all_cards = [warrior for warrior in all_warriors]
 
         random.shuffle(all_cards)
-        return all_cards[0:12]
+        return all_cards
 
     def check_card_click(self, mouse_pos):
         for card in self.cards:
