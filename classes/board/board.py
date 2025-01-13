@@ -2,33 +2,52 @@ import pygame
 import math
 from classes.board.shape import Shape, get_hex_points, get_angle
 from logic.game_logic.constants import SCREEN, BOARD
-from classes.board.castle.castle import Castle
+# from classes.board.castle.castle import Castle
+from classes.board.castle.tower import Tower
+from classes.board.castle.wall import Wall
 
 class Board:
     def __init__(self):
         self.shapes = []
-        self.castles = []
+        self.post_wall_shapes = []
+
+        self.castles = {"walls": [], "towers": []}
+        
+
         self.create_shapes()
         self.create_castles()
 
 
-    def add_shape(self, **kwargs):
+    def add_shape(self, post_wall = False, **kwargs):
         shape = Shape(**kwargs)
-        self.shapes.append(shape.get_draw_function())
+        if post_wall:
+            self.post_wall_shapes.append(shape.get_draw_function())
+        else:
+            self.shapes.append(shape.get_draw_function())
 
     def render(self):
         for shape in self.shapes:
             shape(SCREEN.screen)
 
-        for castle in self.castles:
-            shape = castle.shape
-            if not castle.destroyed:
+        for wall in self.castles["walls"]:
+            shape = wall.shape
+            if not wall.destroyed:
                 shape(SCREEN.screen)
 
+        for tower in self.castles["towers"]:
+            shape = tower.shape
+            if not tower.destroyed:
+                shape(SCREEN.screen)
+
+        for shape in self.post_wall_shapes:
+            shape(SCREEN.screen)
+
+
     def create_castles(self):
-        self.castles = []
         for i in range(1,7):
-            self.castles.append(Castle(i, BOARD.HEXAGON_DISTANCE))
+            self.castles["walls"].append(Wall(i))
+            self.castles["towers"].append(Tower(i))
+
 
     def create_shapes(self):
         # Add the centered square
@@ -76,6 +95,27 @@ class Board:
                 centered=True,
                 border_width = BOARD.HEX_BORDER_WIDTH*(i) # Will either be 6 or zero
             )
+
+        # Draw circles at the vertexes of the walls to make them stand out
+        for p in hexagon_points:
+            self.add_shape(
+                post_wall = True,
+                shape_type = "circle",
+                color = BOARD.BORDER_COLOR, 
+                relative_position = p,
+                radius = BOARD.VERTEX_RADIUS 
+                    )
+        # Draw circles at the vertexes of the towers to make them stand out
+        tower_points = get_hex_points(BOARD.TOWER_DISTANCE)
+        for p in tower_points:
+            self.add_shape(
+                post_wall = True,
+                shape_type = "circle",
+                color = BOARD.BORDER_COLOR, 
+                relative_position = p,
+                radius = BOARD.VERTEX_RADIUS 
+                    )
+
 
         # Draw circle outlines (the "target")
         for r in range(len(BOARD.RINGS)-1):

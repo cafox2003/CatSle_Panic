@@ -1,4 +1,5 @@
 from classes.monster.monster import Monster
+from logic.game_logic.constants import BOARD
 
 class Monster_Deck():
     def __init__(self):
@@ -9,7 +10,7 @@ class Monster_Deck():
     def add_monster(self):
         self.active_monsters.append(self.all_monsters.pop())
 
-    def move_monsters(self):
+    def move_monsters(self, board=None):
         monsters_to_move = list(self.active_monsters)  # Copy to prevent modification during iteration
         processed_monsters = set()  # Keep track of monsters already moved
 
@@ -28,7 +29,38 @@ class Monster_Deck():
 
             num_monsters = len(same_space_monsters)
             for i, same_monster in enumerate(same_space_monsters):
-                same_monster.move(num_monsters=num_monsters, monster_pos=i + 1)
+
+                # Logic to detect/destroy walls and towers
+                coord = same_monster.coordinate
+                if coord.next_ring() == BOARD.RINGS[0].lower(): # If the next ring will be a castle ring
+                    if coord.ring == BOARD.RINGS[1].lower(): # Check the current ring
+
+                        if not board.castles["walls"][coord.number - 1].destroyed: # Destroy the wall
+                            board.castles["walls"][coord.number - 1].destroyed = True
+                            same_monster.damage()
+                        elif not board.castles["towers"][coord.number - 1].destroyed: #Destroy the tower
+                            board.castles["towers"][coord.number - 1].destroyed = True
+
+                            # Remove the monster if it's dead, move it if it's still alive
+                            same_monster.damage()
+                            if same_monster.health > 0:
+                                same_monster.move(num_monsters=num_monsters, monster_pos=i + 1)
+                        else:
+                            same_monster.move(num_monsters=num_monsters, monster_pos=i + 1)
+                    else: #If already in the castle
+                        if not board.castles["towers"][((coord.number) % 6)].destroyed: #Destroy next tower
+                            board.castles["towers"][((coord.number) % 6)].destroyed = True
+                            same_monster.damage()
+
+                        if same_monster.health > 0: #If it's still alive, move regardless of if the tower was destroyed
+                            same_monster.move(num_monsters=num_monsters, monster_pos=i + 1)
+
+                    # Remove all monster that died
+                    if same_monster.health <= 0:
+                        self.active_monsters.remove(monster)
+                else:
+                    same_monster.move(num_monsters=num_monsters, monster_pos=i + 1)
+
                 processed_monsters.add(same_monster)  # Mark as processed
 
     def defeat_monster(self, monster):

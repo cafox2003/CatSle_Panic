@@ -15,9 +15,10 @@ class SCREEN:
 class BOARD:
     # Border that the board will be surrounded with. Number of pixels
     BOARD_BORDER = 60
-
     HEX_BORDER_WIDTH = 6
     CIRCLE_BORDER_WIDTH = HEX_BORDER_WIDTH - 1
+
+    VERTEX_RADIUS = HEX_BORDER_WIDTH * 4//3
 
     HEIGHT = SCREEN.HEIGHT - 2*BOARD_BORDER
     LENGTH = HEIGHT
@@ -26,6 +27,7 @@ class BOARD:
 
     RING_DISTANCE = (int) (LENGTH // 10.5) # Roughly the constant needed for the rings to be correctly sized (according to the text)
     HEXAGON_DISTANCE = (int) (RING_DISTANCE* 1.25)
+    TOWER_DISTANCE = HEXAGON_DISTANCE * 2//3
 
     TEXT_COLOR = (255,255,255)
     BORDER_COLOR = (0,0,0)

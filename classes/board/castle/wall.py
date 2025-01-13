@@ -1,5 +1,6 @@
+from logic.game_logic.constants import BOARD
+from classes.board.castle.castle import Castle
 
-class Wall:
+class Wall(Castle):
     def __init__(self, number):
-        self.destroyed = False
-        s
+        super().__init__(number, BOARD.HEXAGON_DISTANCE)

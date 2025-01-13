@@ -65,8 +65,9 @@ class Coordinate:
             self.number = self.next_number(self.number)  # Move clockwise around the castle ring
         else:
             # Move one ring inward
-            ring_index = BOARD.RINGS.index(self.ring.title())
-            self.ring = BOARD.RINGS[ring_index - 1].lower()
+            self.ring = self.next_ring()
+            # ring_index = BOARD.RINGS.index(self.ring.title())
+            # self.ring = BOARD.RINGS[ring_index - 1].lower()
 
         self.position = self.calculate_position(num_monsters = num_monsters, monster_pos = monster_pos)
         self.set_color()  # Recalculate color after updating ring and position
@@ -76,3 +77,12 @@ class Coordinate:
     def next_number(index):
         # TODO: 6 comes from there being 6 rings. Change this and every similar usage to us a constant
         return ((index % 6) + 1) 
+
+    # Return the next ring
+    def next_ring(self):
+        ring_index = BOARD.RINGS.index(self.ring.title())
+        if ring_index > 0:
+            return BOARD.RINGS[ring_index - 1].lower()
+        else:
+            return BOARD.RINGS[0].lower() #Don't circle back to forest ring
+

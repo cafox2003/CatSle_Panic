@@ -27,7 +27,7 @@ class Game_Window:
     def main_loop(self): #Maybe change name
         run = True
 
-        for _ in range(6):
+        for _ in range(1):
             Global_State.game_state.monster_deck.add_monster()
 
         while run:
@@ -57,9 +57,6 @@ class Game_Window:
         # Buttons
         for button in self.buttons:
             button.render()
-
-        # my_castle = Castle(2, BOARD.HEXAGON_DISTANCE)
-        # my_castle.render()
 
         pygame.display.flip()
 
