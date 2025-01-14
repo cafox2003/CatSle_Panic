@@ -45,3 +45,9 @@ class Game_State:
             self.monster_deck.add_monster()
 
         self.draw_cards()
+
+    def add_monster(self):
+        self.monster_deck.add_monster()
+
+    def move_monster(self):
+        self.monster_deck.move_monsters(self.board)

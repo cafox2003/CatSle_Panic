@@ -54,15 +54,16 @@ class Monster_Deck():
                         monster.move(is_forward = False) #Moving monster backwards here will result in it standing still
 
                         walls_destroyed.append(coord.number) # Keep track of walls that have been destroyed this turn
-                    elif not board.castles["towers"][coord.number - 1].destroyed: #Destroy the tower
+                    elif (not board.castles["towers"][coord.number - 1].destroyed): #Destroy the tower
 
                         # Only destroy the tower if the wall was destroyed on a previous turn
+                        print(walls_destroyed)
                         if coord.number not in walls_destroyed:
                             board.castles["towers"][coord.number - 1].destroyed = True
                             # Remove the monster if it's dead, move it if it's still alive
                             monster.damage()
-
-                        monster.move(is_forward = False) #Moving monster backwards here will result in it standing still
+                        else:
+                            monster.move(is_forward = False)
                 else: #If already in the castle
                     if not board.castles["towers"][((coord.number) % 6)].destroyed: #Destroy next tower
                         board.castles["towers"][((coord.number) % 6)].destroyed = True

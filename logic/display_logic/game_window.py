@@ -16,10 +16,10 @@ class Game_Window:
         
         # TODO: Make another class and maybe store button definitions in constants
         self.buttons = [
-            # Button(1500, 200, 150, 50, "Move", Global_State.game_state.monster_deck.move_monsters), # Move button
-            # Button(1700, 200, 150, 50, "Add", Global_State.game_state.monster_deck.add_monster), # Add button
-            # Button(1300, 200, 150, 50, "Draw cards", Global_State.game_state.draw_cards), # Add button
-            Button(1100, 200, 150, 50, "Next turn", Global_State.game_state.next_turn) # Add button
+            Button(1500, 200, 150, 50, "Move", Global_State.game_state.move_monster), # Move button
+            Button(1700, 200, 150, 50, "Add", Global_State.game_state.add_monster), # Add button
+            Button(1300, 200, 150, 50, "Draw cards", Global_State.game_state.draw_cards), # Add button
+            # Button(1100, 200, 150, 50, "Next turn", Global_State.game_state.next_turn) # Add button
                 ]
 
         self.main_loop()
