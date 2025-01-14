@@ -8,8 +8,8 @@ class Game_State:
         self.monster_deck = Monster_Deck()
 
         # TODO: Create a class that handles the discard_pile as well
-        self.card_deck = Deck.load_all_cards() # ADD this
-        self.discard_pile = [] # ADD this
+        self.card_deck = Deck.load_all_cards() 
+        self.discard_pile = [] 
 
         self.players = [Player(full_deck = self.card_deck, discard = self.discard_pile)]
         
@@ -40,7 +40,7 @@ class Game_State:
     def next_turn(self):
         self.monster_deck.move_monsters(self.board)
         
-        for i in range(2):
+        for i in range(6):
             self.monster_deck.add_monster()
 
         self.draw_cards()
