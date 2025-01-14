@@ -44,7 +44,7 @@ class Board:
 
 
     def create_castles(self):
-        for i in range(1,7):
+        for i in range(1,BOARD.NUM_SEGMENTS+1):
             self.castles["walls"].append(Wall(i))
             self.castles["towers"].append(Tower(i))
 

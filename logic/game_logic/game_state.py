@@ -2,6 +2,7 @@ from classes.monster.monster_deck import Monster_Deck
 from classes.player import Player
 from classes.card.deck import Deck
 from classes.board.board import Board
+from logic.game_logic.constants import GAME_STATE
 
 class Game_State:
     def __init__(self, players = 1):# Add everything
@@ -30,7 +31,7 @@ class Game_State:
     def draw_cards(self, player = None):
         if player == None:
             player = self.players[0]
-        player.load_hand(self.card_deck, self.discard_pile, 6)
+        player.load_hand(self.card_deck, self.discard_pile, GAME_STATE.NUM_CARDS)
 
     def remove_card(self, player = None):
         if player == None:
@@ -40,7 +41,7 @@ class Game_State:
     def next_turn(self):
         self.monster_deck.move_monsters(self.board)
         
-        for i in range(2):
+        for i in range(GAME_STATE.NUM_DRAW_MONSTERS):
             self.monster_deck.add_monster()
 
         self.draw_cards()

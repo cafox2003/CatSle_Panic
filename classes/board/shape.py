@@ -122,7 +122,11 @@ def filled_pie(surface, x, y, r, start_angle, stop_angle, color):
 # Return points along the guiding lines, or in relation to them
 def get_hex_points(magnitude, angle_mod=0):
     points = []
-    for a in range(30, 361, 60):
+
+    CIRCLE = 360
+
+    angle_inc = CIRCLE // BOARD.NUM_SEGMENTS 
+    for a in range(30, CIRCLE + 1, angle_inc):
         angled_point = (magnitude * math.cos(math.radians(a+angle_mod)), magnitude * math.sin(math.radians(a+angle_mod)))
         points.append(angled_point)
 

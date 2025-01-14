@@ -1,9 +1,9 @@
 from classes.monster.monster import Monster
-from logic.game_logic.constants import BOARD
+from logic.game_logic.constants import BOARD, MONSTER_DECK
 
 class Monster_Deck():
     def __init__(self):
-        self.all_monsters = Monster.generate_monsters(100)
+        self.all_monsters = Monster.generate_monsters(MONSTER_DECK.TOTAL_MONSTERS)
         self.active_monsters = []
         self.defeated_monsters = []
 

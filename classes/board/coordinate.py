@@ -28,7 +28,7 @@ class Coordinate:
 
         angle_offset = self.get_angle_offset(num_monsters, monster_pos) # Get the offset based on how many monsters are on the same spot
 
-        position = get_hex_points(magnitude, angle_offset)[(self.number + 3) % 6]  # Uses hexagon logic + offset to get the correct point
+        position = get_hex_points(magnitude, angle_offset)[(self.number + 3) % BOARD.NUM_SEGMENTS]  # Uses hexagon logic + offset to get the correct point
         self.angle = (int) (get_angle(position))
         return self.center_position(position)
 
@@ -77,14 +77,12 @@ class Coordinate:
     # Returns the next (clockwise) number.
     @staticmethod
     def next_number(index):
-        # TODO: 6 comes from there being 6 rings. Change this and every similar usage to us a constant
-        return ((index % 6) + 1) 
+        return ((index % BOARD.NUM_SEGMENTS) + 1) 
 
     # Returns the previous number (so counter clockwise)
     @staticmethod
     def previous_number(index):
-        # TODO: 6 comes from there being 6 rings. Change this and every similar usage to us a constant
-        return (6 - index + 1)
+        return (BOARD.NUM_SEGMENTS - index+ 1)
 
     # Return the next ring
     def next_ring(self):

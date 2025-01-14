@@ -33,6 +33,9 @@ class BOARD:
     BORDER_COLOR = (0,0,0)
     SEGMENT_COLORS = [(255,0,0),(0,255,0),(0,0,255)]
     SEGMENT_COLOR_NAMES = ["Red", "Green", "Blue"]
+
+    NUM_SEGMENTS = len(SEGMENT_COLORS) * 2
+
     CASTLE_COLOR = (100, 100, 100)
     WALL_COLOR = (170, 170, 170)
     # WALL_COLOR = (255,255,255)
@@ -76,6 +79,9 @@ class MONSTER:
         # Scale image considering the maximum size after rotation
         MONSTER.DIAGONAL_SIZE = (image_width**2 + image_height**2) ** 0.5
 
+class MONSTER_DECK:
+    TOTAL_MONSTERS = 100
+
 class CARD:
     SCALE = 70
     CARD_AR = (2,3) # Card aspect ratio
@@ -100,6 +106,9 @@ class DECK:
 
     BETWEEN_DISTANCE = 30
 
+class GAME_STATE:
+    NUM_DRAW_MONSTERS = 2
+    NUM_CARDS = 6
 # class GAME_STATE:
 #     game_state = None
 #

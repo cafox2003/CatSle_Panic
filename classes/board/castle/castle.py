@@ -11,10 +11,13 @@ class Castle:
         self.shape = self.get_shape(radius)
     def get_shape(self, radius):
 
-        line_hex_points = get_hex_points(radius, 60) 
+        CIRCLE = 360
+        angle_inc = CIRCLE // BOARD.NUM_SEGMENTS 
 
-        start_point = line_hex_points[(self.number + 2) % 6]
-        end_point = line_hex_points[(self.number + 3) % 6]
+        line_hex_points = get_hex_points(radius, angle_inc) 
+
+        start_point = line_hex_points[(self.number + 2) % BOARD.NUM_SEGMENTS]
+        end_point = line_hex_points[(self.number + 3) % BOARD.NUM_SEGMENTS]
 
         line = Shape(
                 shape_type="line",
