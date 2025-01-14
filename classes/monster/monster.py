@@ -25,8 +25,8 @@ class Monster:
             return cls(name = template['name'], health = template['health'], 
                        image_path = template['image_path'], number = number)
 
-    def move(self, num_monsters=1, monster_pos=1):
-        self.coordinate.move(num_monsters, monster_pos)
+    def move(self, num_monsters=1, monster_pos=1, is_forward = True ):
+        self.coordinate.move(num_monsters, monster_pos, is_forward)
 
     @staticmethod
     def generate_monsters(num_monsters=20):

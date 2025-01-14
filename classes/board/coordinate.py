@@ -59,15 +59,17 @@ class Coordinate:
 
     
     # Moves the coordinate forward
-    def move(self, num_monsters = 1, monster_pos = 1):
+    def move(self, num_monsters = 1, monster_pos = 1, is_forward = True):
         # TODO: Remove instances of .lower() and instead store "BOARD.INTERNAL_RINGS" as lowercase rings
-        if self.ring == BOARD.RINGS[0].lower():  # Ensure consistent comparison for the castle ring
-            self.number = self.next_number(self.number)  # Move clockwise around the castle ring
-        else:
-            # Move one ring inward
-            self.ring = self.next_ring()
-            # ring_index = BOARD.RINGS.index(self.ring.title())
-            # self.ring = BOARD.RINGS[ring_index - 1].lower()
+        if is_forward:
+            if self.ring == BOARD.RINGS[0].lower():  # Ensure consistent comparison for the castle ring
+                self.number = self.next_number(self.number)  # Move clockwise around the castle ring
+            else:
+                # Move one ring inward
+                self.ring = self.next_ring()
+        else: # If moving backward
+                # Move one ring backward
+            self.ring = self.previous_ring()
 
         self.position = self.calculate_position(num_monsters = num_monsters, monster_pos = monster_pos)
         self.set_color()  # Recalculate color after updating ring and position
@@ -78,6 +80,12 @@ class Coordinate:
         # TODO: 6 comes from there being 6 rings. Change this and every similar usage to us a constant
         return ((index % 6) + 1) 
 
+    # Returns the previous number (so counter clockwise)
+    @staticmethod
+    def previous_number(index):
+        # TODO: 6 comes from there being 6 rings. Change this and every similar usage to us a constant
+        return (6 - index + 1)
+
     # Return the next ring
     def next_ring(self):
         ring_index = BOARD.RINGS.index(self.ring.title())
@@ -86,3 +94,13 @@ class Coordinate:
         else:
             return BOARD.RINGS[0].lower() #Don't circle back to forest ring
 
+    # Return the previous ring
+    def previous_ring(self):
+        ring_index = BOARD.RINGS.index(self.ring.title())
+
+        if ring_index >= (len(BOARD.RINGS) -1):
+            previous_ring_index = ring_index
+        else:
+            previous_ring_index = ring_index + 1
+            
+        return BOARD.RINGS[previous_ring_index].lower()
