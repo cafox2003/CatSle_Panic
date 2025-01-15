@@ -14,6 +14,7 @@ class Game_Window:
         MONSTER.initialize()
         Global_State.initialize()
         
+        
         # TODO: Make another class and maybe store button definitions in constants
         self.buttons = [
             Button(1500, 200, 150, 50, "Move", Global_State.game_state.move_monster), # Move button
@@ -27,7 +28,7 @@ class Game_Window:
     def main_loop(self): #Maybe change name
         run = True
 
-        for _ in range(1):
+        for _ in range(2):
             Global_State.game_state.monster_deck.add_monster()
 
         while run:

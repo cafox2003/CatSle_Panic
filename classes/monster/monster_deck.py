@@ -9,41 +9,49 @@ class Monster_Deck():
 
     def add_monster(self):
         self.active_monsters.append(self.all_monsters.pop())
+        self.recalculate_positions()
 
 
     def move_monsters(self, board=None):
         self.sort_active_monsters()
-
-        monsters_to_move = list(self.active_monsters)  # Copy to prevent modification during iteration
-        processed_monsters = set()  # Keep track of monsters already moved
-
         self.unhighlight_monsters() # unhighlight all monsters
+        self.handle_walls(board) # Handle collision with the walls
 
-        self.handle_walls(monsters_to_move, board)
-        for monster in monsters_to_move:
+        for monster in self.active_monsters:
+            if monster.health <= 0:
+                self.active_monsters.remove(monster)  # Remove dead monsters
+                continue
+            monster.move()
+
+        self.recalculate_positions() # Recalculate the position of monsters once they're in the same ring
+
+    # Recalculates positions to divide monsters that share a space
+    def recalculate_positions(self):
+        processed_monsters = set()  # Keep track of monsters already moved
+        for monster in self.active_monsters:
+
             if monster in processed_monsters:
                 continue  # Skip if this monster has already been moved
 
             if monster.health <= 0:
-                self.active_monsters.remove(monster)  # Remove dead monsters
+                self.defeat_monster(monster)  # Remove dead monsters
                 continue
 
-            # Get all monsters in the same space as the current one
             same_space_monsters = self.get_monsters(monster.coordinate.ring, monster.coordinate.color, monster.coordinate.number)
-
             num_monsters = len(same_space_monsters)
+            
             for i, same_monster in enumerate(same_space_monsters):
 
-                # Logic to detect/destroy walls and towers
-                same_monster.move(num_monsters=num_monsters, monster_pos=i + 1)
+                same_monster.recalculate_position(num_monsters=num_monsters, monster_pos=i + 1)
                 processed_monsters.add(same_monster)  # Mark as processed
 
+
     # Handles wall collision
-    def handle_walls(self, monsters_to_move, board):
+    def handle_walls(self, board):
         walls_destroyed = []
 
         # Check if the monster will hip a wall/tower, handle movement/damage accordingly
-        for monster in monsters_to_move:
+        for monster in self.active_monsters:
             coord = monster.coordinate
             if coord.next_ring() == BOARD.RINGS[0].lower(): # If the next ring will be a castle ring
                 if coord.ring == BOARD.RINGS[1].lower(): # Check the current ring
@@ -68,9 +76,6 @@ class Monster_Deck():
                     if not board.castles["towers"][((coord.number) % 6)].destroyed: #Destroy next tower
                         board.castles["towers"][((coord.number) % 6)].destroyed = True
                         monster.damage()
-                        monster.move(is_forward = False)
-
-
 
     def defeat_monster(self, monster):
         self.active_monsters.remove(monster)

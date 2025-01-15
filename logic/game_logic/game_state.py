@@ -41,7 +41,7 @@ class Game_State:
     def next_turn(self):
         self.monster_deck.move_monsters(self.board)
         
-        for i in range(GAME_STATE.NUM_DRAW_MONSTERS):
+        for _ in range(GAME_STATE.NUM_DRAW_MONSTERS):
             self.monster_deck.add_monster()
 
         self.draw_cards()

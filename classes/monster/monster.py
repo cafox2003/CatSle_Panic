@@ -28,6 +28,9 @@ class Monster:
     def move(self, num_monsters=1, monster_pos=1, is_forward = True ):
         self.coordinate.move(num_monsters, monster_pos, is_forward)
 
+    def recalculate_position(self, num_monsters=1, monster_pos=1):
+        self.coordinate.calculate_position(num_monsters, monster_pos)
+
     @staticmethod
     def generate_monsters(num_monsters=20):
         monsters = []

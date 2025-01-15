@@ -1,4 +1,4 @@
-from logic.game_logic.constants import BOARD, SCREEN, MONSTER
+from logic.game_logic.constants import BOARD 
 from classes.board.shape import get_hex_points, get_angle
 
 # from classes.monster.monster_deck import Monster_Deck
@@ -13,7 +13,9 @@ class Coordinate:
 
         self.set_color() # Sets color based on the number
         self.angle = 0
-        self.position = self.calculate_position()
+        self.position = None
+
+        self.calculate_position()
 
     def calculate_position(self, num_monsters = 1, monster_pos = 1):
 
@@ -30,7 +32,8 @@ class Coordinate:
 
         position = get_hex_points(magnitude, angle_offset)[(self.number + 3) % BOARD.NUM_SEGMENTS]  # Uses hexagon logic + offset to get the correct point
         self.angle = (int) (get_angle(position))
-        return self.center_position(position)
+
+        self.position = self.center_position(position)
 
     # Center the piece according to the screen size
     def center_position(self, position):
