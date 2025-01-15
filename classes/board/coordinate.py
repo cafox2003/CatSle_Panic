@@ -34,6 +34,7 @@ class Coordinate:
         self.angle = (int) (get_angle(position))
 
         self.position = self.center_position(position)
+        return 
 
     # Center the piece according to the screen size
     def center_position(self, position):

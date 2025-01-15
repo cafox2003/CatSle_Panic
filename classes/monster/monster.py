@@ -32,10 +32,30 @@ class Monster:
         self.coordinate.calculate_position(num_monsters, monster_pos)
 
     @staticmethod
-    def generate_monsters(num_monsters=20):
+    def generate_monsters(num_monsters=20, random=False):
         monsters = []
-        for i in range(num_monsters):
-            monsters.append(Monster.create_monster())
+
+        if random:
+            for i in range(num_monsters):
+                monsters.append(Monster.create_monster())
+        else:
+            print("random :3")
+            monsters.append(Monster.create_monster("goblin", 4))
+            monsters.append(Monster.create_monster("goblin", 4))
+
+            monsters.append(Monster.create_monster("troll", 5))
+            monsters.append(Monster.create_monster("goblin", 1))
+
+            monsters.append(Monster.create_monster("goblin", 5))
+            monsters.append(Monster.create_monster("goblin", 6))
+
+            monsters.append(Monster.create_monster("troll", 5))
+            monsters.append(Monster.create_monster("troll", 6))
+
+            monsters.append(Monster.create_monster("orc", 4))
+            monsters.append(Monster.create_monster("goblin", 3))
+
+            monsters.reverse()
         return monsters
 
     @staticmethod
