@@ -7,9 +7,13 @@ class Monster_Deck():
         self.active_monsters = []
         self.defeated_monsters = []
 
+
+
     def add_monster(self):
-        self.active_monsters.append(self.all_monsters.pop())
-        self.recalculate_positions()
+        # Only add a monster if there are monsters to draw from
+        if len(self.all_monsters) > 0:
+            self.active_monsters.append(self.all_monsters.pop())
+            self.recalculate_positions()
 
 
     def move_monsters(self, board=None):
@@ -19,7 +23,7 @@ class Monster_Deck():
 
         for monster in self.active_monsters:
             if monster.health <= 0:
-                self.active_monsters.remove(monster)  # Remove dead monsters
+                self.defeat_monster(monster)  # Remove dead monsters
                 continue
             monster.move()
 
@@ -65,7 +69,6 @@ class Monster_Deck():
                     elif (not board.castles["towers"][coord.number - 1].destroyed): #Destroy the tower
 
                         # Only destroy the tower if the wall was destroyed on a previous turn
-                        print(walls_destroyed)
                         if coord.number not in walls_destroyed:
                             board.castles["towers"][coord.number - 1].destroyed = True
                             # Remove the monster if it's dead, move it if it's still alive
@@ -125,4 +128,7 @@ class Monster_Deck():
 
     def sort_active_monsters(self):
         self.active_monsters = sorted(self.active_monsters, key=lambda monster: BOARD.RINGS.index(monster.coordinate.ring.title()))
-            
+
+    # Check if monsters remain by seeing if all have been defeated
+    def monsters_remain(self):
+        return (MONSTER_DECK.TOTAL_MONSTERS != len(self.defeated_monsters))

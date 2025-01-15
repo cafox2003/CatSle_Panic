@@ -16,6 +16,9 @@ class Game_State:
         
         self.board = Board()
 
+        self.game_over = False
+        self.game_won = None
+
         """card_deck,
         players - list of all players
             player - individual player object (have multiple in a list):
@@ -46,6 +49,25 @@ class Game_State:
 
         self.draw_cards()
 
+    def check_game_status(self):
+        # Checks if any towers exist
+        towers_exist = any(not tower.destroyed for tower in self.board.castles["towers"])
+
+        monsters_remain = self.monster_deck.monsters_remain()
+        
+
+        if not towers_exist:
+            self.game_over = True
+            self.game_won = False
+        elif not monsters_remain:
+            self.game_over = True
+            self.game_won = True
+            print(f" Game over: {self.game_over}\nGame won: {self.game_won}")
+        
+
+
+
+    # Wrapper functions to be called from game window for testing
     def add_monster(self):
         self.monster_deck.add_monster()
 

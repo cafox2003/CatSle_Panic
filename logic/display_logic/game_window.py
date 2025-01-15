@@ -1,11 +1,9 @@
 import pygame
-import time
 from logic.game_logic.constants import SCREEN, MONSTER, COLOR 
 from logic.game_logic.global_state import Global_State 
 from logic.display_logic.button import Button
 
-from classes.board.castle.castle import Castle
-from logic.game_logic.constants import SCREEN, BOARD
+from logic.game_logic.constants import SCREEN
 
 class Game_Window:
     def __init__(self):
@@ -13,33 +11,45 @@ class Game_Window:
         SCREEN.initialize()
         MONSTER.initialize()
         Global_State.initialize()
-        
+
+        self.run = True
         
         # TODO: Make another class and maybe store button definitions in constants
         self.buttons = [
-            Button(1500, 200, 150, 50, "Move", Global_State.game_state.move_monster), # Move button
-            Button(1700, 200, 150, 50, "Add", Global_State.game_state.add_monster), # Add button
-            Button(1300, 200, 150, 50, "Draw cards", Global_State.game_state.draw_cards), # Add button
-            # Button(1100, 200, 150, 50, "Next turn", Global_State.game_state.next_turn) # Add button
+            # Button(1500, 200, 150, 50, "Move", Global_State.game_state.move_monster), # Move button
+            # Button(1700, 200, 150, 50, "Add", Global_State.game_state.add_monster), # Add button
+            # Button(1300, 200, 150, 50, "Draw cards", Global_State.game_state.draw_cards), # Add button
+            Button(1100, 200, 150, 50, "Next turn", Global_State.game_state.next_turn) # Add button
                 ]
 
         self.main_loop()
 
     def main_loop(self): #Maybe change name
-        run = True
 
         for _ in range(2):
             Global_State.game_state.monster_deck.add_monster()
 
-        while run:
+        while self.run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    run = False
+                    self.run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.check_click() 
 
-            self.update_screen()
+            self.update_game()
+
+        self.end_screen()
         pygame.quit()
+
+        
+    def update_game(self):
+        Global_State.game_state.check_game_status()
+
+        if Global_State.game_state.game_over:
+            self.run = False
+        self.update_screen()
+
+        # self.run = not Global_State.game_state.game_over
 
     # Calls everything's render method to update the screen
     def update_screen(self):
@@ -60,6 +70,12 @@ class Game_Window:
             button.render()
 
         pygame.display.flip()
+
+    def end_screen(self):
+        if Global_State.game_state.game_won:
+            print("You win!")
+        elif not Global_State.game_state.game_won:
+            print("You lose!")
 
     # Handle all clicks
     def check_click(self):

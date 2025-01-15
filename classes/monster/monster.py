@@ -100,7 +100,6 @@ class Monster:
         self.health -= 1
 
         if self.health <= 0:
-            print(f"Monster {self.name} defeated!")
             return True  # Indicate the monster should be removed
 
         self.angle_mod = (self.max_health - self.health) * 120
