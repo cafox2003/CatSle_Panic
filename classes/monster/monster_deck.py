@@ -16,12 +16,10 @@ class Monster_Deck():
 
 
     def move_monsters(self, board=None):
-        print("####################################")
         self.sort_active_monsters()
         self.unhighlight_monsters() # unhighlight all monsters
         self.handle_walls(board) # Handle collision with the walls
 
-        print(f"Active monsters (in move monsters): {len(self.active_monsters)}\n") 
         for monster in self.active_monsters:
             if monster.health <= 0:
                 self.active_monsters.remove(monster)  # Remove dead monsters
@@ -39,7 +37,7 @@ class Monster_Deck():
                 continue  # Skip if this monster has already been moved
 
             if monster.health <= 0:
-                self.active_monsters.remove(monster)  # Remove dead monsters
+                self.defeat_monster(monster)  # Remove dead monsters
                 continue
 
             same_space_monsters = self.get_monsters(monster.coordinate.ring, monster.coordinate.color, monster.coordinate.number)
@@ -57,9 +55,8 @@ class Monster_Deck():
         proccessed_monsters = set()
 
         # Check if the monster will hip a wall/tower, handle movement/damage accordingly
-        for i, monster in enumerate(self.active_monsters):
+        for monster in self.active_monsters:
             if monster.health <= 0:
-                print("Duplicate found!")
                 continue
             else:
                 proccessed_monsters.add(monster)
@@ -70,31 +67,19 @@ class Monster_Deck():
 
                     if not board.castles["walls"][coord.number - 1].destroyed: # Destroy the wall
                         board.castles["walls"][coord.number - 1].destroyed = True
+                        monster.move(is_forward = False) #Moving monster backwards here will result in it standing still
+                        walls_destroyed.append(coord.number) # Keep track of walls that have been destroyed this turn
+                        monster.damage()
 
-                        # print(f" wall {board.castles["walls"][coord.number - 1].number} corresponds to {coord.number}")
-                        # monster.damage()
-
-                        if monster.health > 0:
-                            print(f"(index {i}) {monster.name} moved backwards on {monster.coordinate.number}")
-                            monster.move(is_forward = False) #Moving monster backwards here will result in it standing still
-                            walls_destroyed.append(coord.number) # Keep track of walls that have been destroyed this turn
-                            monster.damage()
                     elif (not board.castles["towers"][coord.number - 1].destroyed): #Destroy the tower
-
                         # Only destroy the tower if the wall was destroyed on a previous turn
                         if coord.number not in walls_destroyed:
-                            print(f"Desroyed index: {coord.number} because it was not in {walls_destroyed}")
                             board.castles["towers"][coord.number - 1].destroyed = True
                             # Remove the monster if it's dead, move it if it's still alive
 
-                            if monster.health > 0:
-                                monster.damage()
-                            else:
-                                pass
+                            monster.damage()
                         else:
-                            if monster.health > 0:
-                                print(f"(index {i}) {monster.name} moved backwards on {monster.coordinate.number}")
-                                monster.move(is_forward = False)
+                            monster.move(is_forward = False)
                 else: #If already in the castle
                     if not board.castles["towers"][((coord.number) % 6)].destroyed: #Destroy next tower
                         board.castles["towers"][((coord.number) % 6)].destroyed = True
@@ -102,9 +87,7 @@ class Monster_Deck():
 
         for m in self.active_monsters:
             if m.health <= 0:
-                print(f"removed {m.name}")
-                self.active_monsters.remove(m)
-        print(f"Active monsters (in handle walls): {len(self.active_monsters)}") 
+                self.defeat_monster(m)
 
     def defeat_monster(self, monster):
         self.active_monsters.remove(monster)
