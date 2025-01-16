@@ -2,6 +2,7 @@ import pygame
 
 class COLOR:
     BACKGROUND = (133, 128, 121)
+    TEXT = (0, 0, 0)
 
 class SCREEN:
     LENGTH = 1920
@@ -80,7 +81,7 @@ class MONSTER:
         MONSTER.DIAGONAL_SIZE = (image_width**2 + image_height**2) ** 0.5
 
 class MONSTER_DECK:
-    TOTAL_MONSTERS = 6
+    TOTAL_MONSTERS = 100
 
 class CARD:
     SCALE = 50
@@ -109,6 +110,16 @@ class DECK:
 class GAME_STATE:
     NUM_DRAW_MONSTERS = 2
     NUM_CARDS = 6
+
+class END_SCREEN:
+    OUTCOME_MESSAGES = {"won": "You have won!", "lost": "Game Over"}
+
+
+    TEXT_COLOR = COLOR.TEXT  # Use the same text color or customize it
+    FONT_TYPE = 'arial'
+    FONT_SIZE = 64  # Larger font for the end screen
+    BACKGROUND_COLOR = COLOR.BACKGROUND  # Use the default background color or customize
+    DISPLAY_TIME = 3000  # Duration to display the end screen (in milliseconds)
 # class GAME_STATE:
 #     game_state = None
 #

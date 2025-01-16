@@ -6,6 +6,22 @@ from logic.game_logic.constants import GAME_STATE
 
 class Game_State:
     def __init__(self, players = 1):# Add everything
+
+        self.reset()
+        """card_deck,
+        players - list of all players
+            player - individual player object (have multiple in a list):
+                player_hands - implement as a deck obj,
+                is_player_turn - true/false for if it's their is_player_turn
+                slain_monsters[] - a list of monsters they've slain
+            all_turns_over - stores if all players have finished their turn
+        monster_deck - all monsters still in the pile
+        draw_new_monsters - boolean that keeps track of if more monsters can be drawn (missing hasn't been drawn, monsters still left)
+        active_monsters - List of all active monsters,
+       """
+
+    def reset(self):
+        print("Resetting the game state")
         self.monster_deck = Monster_Deck()
 
         # TODO: Create a class that handles the discard_pile as well
@@ -18,18 +34,6 @@ class Game_State:
 
         self.game_over = False
         self.game_won = None
-
-        """card_deck,
-        players - list of all players
-            player - individual player object (have multiple in a list):
-                player_hands - implement as a deck obj,
-                is_player_turn - true/false for if it's their is_player_turn
-                slain_monsters[] - a list of monsters they've slain
-            all_turns_over - stores if all players have finished their turn
-        monster_deck - all monsters still in the pile
-        draw_new_monsters - boolean that keeps track of if more monsters can be drawn (missing hasn't been drawn, monsters still left)
-        active_monsters - List of all active monsters,
-       """
 
     def draw_cards(self, player = None):
         if player == None:
@@ -52,9 +56,7 @@ class Game_State:
     def check_game_status(self):
         # Checks if any towers exist
         towers_exist = any(not tower.destroyed for tower in self.board.castles["towers"])
-
         monsters_remain = self.monster_deck.monsters_remain()
-        
 
         if not towers_exist:
             self.game_over = True
@@ -62,7 +64,6 @@ class Game_State:
         elif not monsters_remain:
             self.game_over = True
             self.game_won = True
-            print(f" Game over: {self.game_over}\nGame won: {self.game_won}")
         
 
 

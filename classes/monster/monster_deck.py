@@ -7,13 +7,10 @@ class Monster_Deck():
         self.active_monsters = []
         self.defeated_monsters = []
 
-
-
     def add_monster(self):
         if len(self.all_monsters) > 0:
             self.active_monsters.append(self.all_monsters.pop())
             self.recalculate_positions()
-
 
     def move_monsters(self, board=None):
         self.sort_active_monsters()

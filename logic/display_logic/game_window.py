@@ -1,9 +1,8 @@
 import pygame
-from logic.game_logic.constants import SCREEN, MONSTER, COLOR 
+from logic.game_logic.constants import SCREEN, MONSTER, COLOR, END_SCREEN
 from logic.game_logic.global_state import Global_State 
 from logic.display_logic.button import Button
-
-from logic.game_logic.constants import SCREEN
+from logic.display_logic.end_screen import End_Screen
 
 class Game_Window:
     def __init__(self):
@@ -13,6 +12,7 @@ class Game_Window:
         Global_State.initialize()
 
         self.run = True
+        self.end_screen = None
         
         # TODO: Make another class and maybe store button definitions in constants
         self.buttons = [
@@ -23,6 +23,7 @@ class Game_Window:
                 ]
 
         self.main_loop()
+
 
     def main_loop(self): #Maybe change name
 
@@ -38,16 +39,20 @@ class Game_Window:
 
             self.update_game()
 
-        self.end_screen()
         pygame.quit()
 
         
     def update_game(self):
         Global_State.game_state.check_game_status()
 
+
         if Global_State.game_state.game_over:
-            self.run = False
-        self.update_screen()
+            if self.end_screen == None:
+                self.end_screen = End_Screen(Global_State.game_state.game_won)
+            self.end_screen.display()
+            # self.run = self.end_screen()
+        else:
+            self.update_screen()
 
         # self.run = not Global_State.game_state.game_over
 
@@ -71,11 +76,32 @@ class Game_Window:
 
         pygame.display.flip()
 
-    def end_screen(self):
-        if Global_State.game_state.game_won:
-            print("You win!")
-        elif not Global_State.game_state.game_won:
-            print("You lose!")
+    # def end_screen(self):
+    #     # Fill the background
+    #     SCREEN.screen.fill(END_SCREEN.BACKGROUND_COLOR)
+    #
+    #     # Create the font
+    #     font = pygame.font.SysFont(END_SCREEN.FONT_TYPE, END_SCREEN.FONT_SIZE)
+    #     if Global_State.game_state.game_won:
+    #         text = font.render("You Win!", True, END_SCREEN.TEXT_COLOR)
+    #     else:
+    #         text = font.render("You Lose!", True, END_SCREEN.TEXT_COLOR)
+    #
+    #     # Center the text
+    #     text_rect = text.get_rect(center=(SCREEN.LENGTH // 2, SCREEN.HEIGHT // 2))
+    #     SCREEN.screen.blit(text, text_rect)
+    #
+    #     # Update the display
+    #     pygame.display.flip()
+    #
+    #     # Wait for the specified duration
+    #     pygame.time.wait(END_SCREEN.DISPLAY_TIME)
+    #
+    #     # Handle quitting directly
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             pygame.quit()
+    #             quit()
 
     # Handle all clicks
     def check_click(self):
