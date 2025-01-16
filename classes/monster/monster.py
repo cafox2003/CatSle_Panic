@@ -32,7 +32,7 @@ class Monster:
         self.coordinate.calculate_position(num_monsters, monster_pos)
 
     @staticmethod
-    def generate_monsters(num_monsters=20, random=False):
+    def generate_monsters(num_monsters=20, random=True):
         monsters = []
 
         if random:
@@ -40,20 +40,34 @@ class Monster:
                 monsters.append(Monster.create_monster())
         else:
             print("random :3")
-            monsters.append(Monster.create_monster("goblin", 4))
-            monsters.append(Monster.create_monster("goblin", 4))
+            monsters.append(Monster.create_monster("goblin", 2))
+            monsters.append(Monster.create_monster("goblin", 2))
 
-            monsters.append(Monster.create_monster("troll", 5))
-            monsters.append(Monster.create_monster("goblin", 1))
-
-            monsters.append(Monster.create_monster("goblin", 5))
-            monsters.append(Monster.create_monster("goblin", 6))
-
-            monsters.append(Monster.create_monster("troll", 5))
+            monsters.append(Monster.create_monster("troll", 2))
             monsters.append(Monster.create_monster("troll", 6))
 
+            monsters.append(Monster.create_monster("troll", 3))
+            monsters.append(Monster.create_monster("goblin", 6))
+
+            monsters.append(Monster.create_monster("troll", 3))
+            monsters.append(Monster.create_monster("troll", 2))
+
             monsters.append(Monster.create_monster("orc", 4))
-            monsters.append(Monster.create_monster("goblin", 3))
+            monsters.append(Monster.create_monster("troll", 1))
+            # monsters.append(Monster.create_monster("goblin", 4))
+            # monsters.append(Monster.create_monster("goblin", 4))
+            #
+            # monsters.append(Monster.create_monster("troll", 5))
+            # monsters.append(Monster.create_monster("goblin", 1))
+            #
+            # monsters.append(Monster.create_monster("goblin", 5))
+            # monsters.append(Monster.create_monster("goblin", 6))
+            #
+            # monsters.append(Monster.create_monster("troll", 5))
+            # monsters.append(Monster.create_monster("troll", 6))
+            #
+            # monsters.append(Monster.create_monster("orc", 4))
+            # monsters.append(Monster.create_monster("goblin", 3))
 
             monsters.reverse()
         return monsters
