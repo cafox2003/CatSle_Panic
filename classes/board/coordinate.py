@@ -73,7 +73,7 @@ class Coordinate:
                 self.ring = self.next_ring()
         else: # If moving backward
                 # Move one ring backward
-            self.ring = self.previous_ring()
+             self.ring = self.previous_ring()
 
         self.position = self.calculate_position(num_monsters = num_monsters, monster_pos = monster_pos)
         self.set_color()  # Recalculate color after updating ring and position
