@@ -27,9 +27,6 @@ class Game_Window:
 
     def main_loop(self): #Maybe change name
 
-        for _ in range(2):
-            Global_State.game_state.monster_deck.add_monster()
-
         while self.run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -74,34 +71,8 @@ class Game_Window:
         for button in self.buttons:
             button.render()
 
+        # self.check_click()
         pygame.display.flip()
-
-    # def end_screen(self):
-    #     # Fill the background
-    #     SCREEN.screen.fill(END_SCREEN.BACKGROUND_COLOR)
-    #
-    #     # Create the font
-    #     font = pygame.font.SysFont(END_SCREEN.FONT_TYPE, END_SCREEN.FONT_SIZE)
-    #     if Global_State.game_state.game_won:
-    #         text = font.render("You Win!", True, END_SCREEN.TEXT_COLOR)
-    #     else:
-    #         text = font.render("You Lose!", True, END_SCREEN.TEXT_COLOR)
-    #
-    #     # Center the text
-    #     text_rect = text.get_rect(center=(SCREEN.LENGTH // 2, SCREEN.HEIGHT // 2))
-    #     SCREEN.screen.blit(text, text_rect)
-    #
-    #     # Update the display
-    #     pygame.display.flip()
-    #
-    #     # Wait for the specified duration
-    #     pygame.time.wait(END_SCREEN.DISPLAY_TIME)
-    #
-    #     # Handle quitting directly
-    #     for event in pygame.event.get():
-    #         if event.type == pygame.QUIT:
-    #             pygame.quit()
-    #             quit()
 
     # Handle all clicks
     def check_click(self):
@@ -110,6 +81,10 @@ class Game_Window:
         self.check_buttons(mouse_pos)
         self.check_cards(mouse_pos)
         self.check_monsters(mouse_pos)
+
+
+        if self.end_screen != None:
+            self.end_screen.check_buttons()
 
     # Handle button clicks
     def check_buttons(self, mouse_pos):

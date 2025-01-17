@@ -21,8 +21,10 @@ class Game_State:
        """
 
     def reset(self):
-        print("Resetting the game state")
         self.monster_deck = Monster_Deck()
+
+        for _ in range(2):
+            self.monster_deck.add_monster()
 
         # TODO: Create a class that handles the discard_pile as well
         self.card_deck = Deck.load_all_cards() 
@@ -64,8 +66,6 @@ class Game_State:
         elif not monsters_remain:
             self.game_over = True
             self.game_won = True
-        
-
 
 
     # Wrapper functions to be called from game window for testing

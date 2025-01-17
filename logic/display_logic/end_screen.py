@@ -5,10 +5,9 @@ from logic.display_logic.button import Button
 
 class End_Screen():
     def __init__(self, game_won):
-        print("In end screen")
 
         self.buttons = [
-            Button(1500, 200, 150, 50, "Restart game", Global_State.game_state.reset), # Move button
+            Button(SCREEN.LENGTH // 2, SCREEN.HEIGHT * 3//4, 150, 50, "Restart game", Global_State.game_state.reset, centered=True), # Move button
                 ]
 
         if game_won:
@@ -18,8 +17,6 @@ class End_Screen():
 
     def display(self):
         self.render()
-        self.check_buttons()
-
 
     def render(self):
         self.render_screen()
@@ -43,11 +40,9 @@ class End_Screen():
         text_rect = text.get_rect(center=(SCREEN.LENGTH // 2, SCREEN.HEIGHT // 2))
         SCREEN.screen.blit(text, text_rect)
 
-
     def render_buttons(self):
         for button in self.buttons:
             button.render()
-
 
     def check_buttons(self):
         mouse_pos = pygame.mouse.get_pos()

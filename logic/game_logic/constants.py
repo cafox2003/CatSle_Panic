@@ -81,7 +81,7 @@ class MONSTER:
         MONSTER.DIAGONAL_SIZE = (image_width**2 + image_height**2) ** 0.5
 
 class MONSTER_DECK:
-    TOTAL_MONSTERS = 100
+    TOTAL_MONSTERS = 3
 
 class CARD:
     SCALE = 50

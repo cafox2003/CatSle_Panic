@@ -39,8 +39,12 @@ class Monster:
             for _ in range(num_monsters):
                 monsters.append(Monster.create_monster())
         else:
-            print("random :3")
+            print("Not random :3")
 
+            monsters.append(Monster.create_monster("troll", 2))
+
+            monsters.append(Monster.create_monster("orc", 6))
+            monsters.append(Monster.create_monster("orc", 4))
             # monsters.append(Monster.create_monster("orc", 5))
             # monsters.append(Monster.create_monster("goblin", 5))
             #

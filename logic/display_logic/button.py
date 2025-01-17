@@ -2,7 +2,10 @@ import pygame
 from logic.game_logic.constants import SCREEN
 
 class Button:
-    def __init__(self, x, y, width, height, text, action):
+    def __init__(self, x, y, width, height, text, action, centered = False):
+        if centered:
+            x -= width // 2
+            y -= height // 2
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
         self.action = action
@@ -11,6 +14,7 @@ class Button:
 
     def render(self):
         # Change color on hover
+
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             pygame.draw.rect(SCREEN.screen, self.hover_color, self.rect)

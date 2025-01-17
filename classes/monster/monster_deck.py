@@ -19,7 +19,7 @@ class Monster_Deck():
 
         for monster in self.active_monsters:
             if monster.health <= 0:
-                self.active_monsters.remove(monster)  # Remove dead monsters
+                self.defeat_monster(monster)  # Remove dead monsters
                 continue
             monster.move()
 
