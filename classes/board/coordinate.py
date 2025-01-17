@@ -1,9 +1,6 @@
 from logic.game_logic.constants import BOARD 
 from classes.board.shape import get_hex_points, get_angle
 
-# from classes.monster.monster_deck import Monster_Deck
-# from logic.game_logic.global_state import Global_State 
-
 class Coordinate:
     def __init__(self, ring, number):
         self.ring = ring.lower()

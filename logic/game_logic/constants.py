@@ -4,7 +4,6 @@ def initialize():
     pygame.init()
     SCREEN.initialize()
     MONSTER.initialize()
-    # Global_State.initialize()
 
 class COLOR:
     BACKGROUND = (133, 128, 121)
@@ -126,6 +125,7 @@ class END_SCREEN:
     FONT_SIZE = 64  # Larger font for the end screen
     BACKGROUND_COLOR = COLOR.BACKGROUND  # Use the default background color or customize
     DISPLAY_TIME = 3000  # Duration to display the end screen (in milliseconds)
+
 # class GAME_STATE:
 #     game_state = None
 #

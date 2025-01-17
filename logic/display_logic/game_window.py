@@ -7,9 +7,6 @@ from logic.display_logic.end_screen import End_Screen
 class Game_Window:
     def __init__(self):
         initialize()
-        # pygame.init()
-        # SCREEN.initialize()
-        # MONSTER.initialize()
         Global_State.initialize()
 
         self.run = True
