@@ -1,14 +1,15 @@
 import pygame
-from logic.game_logic.constants import SCREEN, MONSTER, COLOR, END_SCREEN
+from logic.game_logic.constants import SCREEN, COLOR, initialize 
 from logic.game_logic.global_state import Global_State 
 from logic.display_logic.button import Button
 from logic.display_logic.end_screen import End_Screen
 
 class Game_Window:
     def __init__(self):
-        pygame.init()
-        SCREEN.initialize()
-        MONSTER.initialize()
+        initialize()
+        # pygame.init()
+        # SCREEN.initialize()
+        # MONSTER.initialize()
         Global_State.initialize()
 
         self.run = True

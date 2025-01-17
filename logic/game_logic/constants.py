@@ -1,5 +1,11 @@
 import pygame
 
+def initialize():
+    pygame.init()
+    SCREEN.initialize()
+    MONSTER.initialize()
+    # Global_State.initialize()
+
 class COLOR:
     BACKGROUND = (133, 128, 121)
     TEXT = (0, 0, 0)
@@ -81,7 +87,7 @@ class MONSTER:
         MONSTER.DIAGONAL_SIZE = (image_width**2 + image_height**2) ** 0.5
 
 class MONSTER_DECK:
-    TOTAL_MONSTERS = 3
+    TOTAL_MONSTERS = 100
 
 class CARD:
     SCALE = 50
