@@ -5,14 +5,13 @@ from logic.display_logic.menu_screen import Menu_Screen
 
 class End_Screen(Menu_Screen):
 
-    def __init__(self, game_won):
+    def __init__(self, game_won, buttons):
 
         if game_won:
             message = END_SCREEN.OUTCOME_MESSAGES["won"]
         else:
             message = END_SCREEN.OUTCOME_MESSAGES["lost"]
 
-        buttons = [
-            Button(SCREEN.LENGTH // 2, SCREEN.HEIGHT * 3//4, 150, 50, "Restart game", Global_State.game_state.reset, centered=True), # Move button
-                ]
+        # buttons = [ Button(SCREEN.LENGTH // 2, SCREEN.HEIGHT * 3//4, 150, 50, "Restart game", Global_State.game_state.reset, centered=True), # Move button
+        #         ]
         super().__init__(message, buttons)
