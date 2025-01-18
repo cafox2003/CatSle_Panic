@@ -1,5 +1,5 @@
 import pygame
-from logic.game_logic.constants import SCREEN, COLOR, initialize 
+from logic.game_logic.constants import GAME_WINDOW, SCREEN, COLOR, GAME_STATE, initialize
 from logic.game_logic.global_state import Global_State 
 # Global_State.game_state.game_won
 from logic.display_logic.button import Button
@@ -10,23 +10,6 @@ from logic.display_logic.gui_constants import END_SCREEN
 class Game_Window:
     def __init__(self):
         self.initialize()
-        # initialize()
-        # Global_State.initialize()
-        # END_SCREEN.initialize()
-        #
-        # self.run = True
-        # self.end_screen = None
-        # self.menu_screen = None
-        #
-        # # TODO: Make another class and maybe store button definitions in constants
-        # self.buttons = [
-        #     Button(1500, 200, 150, 50, "Move", Global_State.game_state.move_monster), # Move button
-        #     Button(1700, 200, 150, 50, "Add", Global_State.game_state.add_monster), # Add button
-        #     Button(1300, 200, 150, 50, "Draw cards", Global_State.game_state.draw_cards), # Add button
-        #     Button(1100, 200, 150, 50, "Next turn", Global_State.game_state.next_turn) # Add button
-        #         ]
-        #
-        # self.main_loop()
 
     def initialize(self):
 
@@ -36,7 +19,7 @@ class Game_Window:
 
         self.run = True
         self.end_screen = None
-        self.menu_screen = None
+        GAME_WINDOW.menu_screen = None
         
         # TODO: Make another class and maybe store button definitions in constants
         self.buttons = [
@@ -55,7 +38,7 @@ class Game_Window:
                 if event.type == pygame.QUIT:
                     self.run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    print(f"{self.menu_screen}")
+                    # print(f"{GAME_WINDOW.menu_screen}")
                     self.check_click() 
 
             self.update_game()
@@ -68,9 +51,9 @@ class Game_Window:
 
 
         if Global_State.game_state.game_over:
-            if self.menu_screen == None:
-                self.menu_screen = END_SCREEN.get_end_screen()
-                self.menu_screen.display()
+            if GAME_WINDOW.menu_screen == None:
+                GAME_WINDOW.menu_screen = END_SCREEN.get_end_screen()
+                GAME_WINDOW.menu_screen.display()
             # self.run = self.end_screen()
         else:
             self.update_screen()
@@ -107,8 +90,8 @@ class Game_Window:
         self.check_monsters(mouse_pos)
 
 
-        if self.menu_screen != None:
-            self.menu_screen.check_buttons()
+        if GAME_WINDOW.menu_screen != None:
+            GAME_WINDOW.menu_screen.check_buttons()
 
     # Handle button clicks
     def check_buttons(self, mouse_pos):

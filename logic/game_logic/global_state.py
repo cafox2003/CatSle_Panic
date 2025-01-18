@@ -5,7 +5,8 @@ class Global_State:
 
     @staticmethod
     def initialize():
-        if Global_State.game_state is None:  # Ensure it only initializes once
-            Global_State.game_state = Game_State()  # Assign to the class variable
-        else:
-            print("Game state already initialized!")
+        Global_State.game_state = Game_State()  # Assign to the class variable
+        # if Global_State.game_state is None:  # Ensure it only initializes once
+        #     Global_State.game_state = Game_State()  # Assign to the class variable
+        # else:
+        #     print("Game state already initialized!")
