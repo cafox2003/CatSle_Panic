@@ -5,7 +5,7 @@ from logic.game_logic.global_state import Global_State
 from logic.display_logic.button import Button
 from logic.display_logic.end_screen import End_Screen
 
-from logic.display_logic.gui_constants import END_SCREEN
+from logic.display_logic.gui_constants import MENU_SCREEN
 
 class Game_Window:
     def __init__(self):
@@ -15,7 +15,7 @@ class Game_Window:
 
         initialize()
         Global_State.initialize()
-        END_SCREEN.initialize()
+        MENU_SCREEN.initialize()
 
         self.run = True
         self.end_screen = None
@@ -50,11 +50,12 @@ class Game_Window:
         Global_State.game_state.check_game_status()
 
 
-        if Global_State.game_state.game_over:
-            if GAME_WINDOW.menu_screen == None:
-                GAME_WINDOW.menu_screen = END_SCREEN.get_end_screen()
-                GAME_WINDOW.menu_screen.display()
-            # self.run = self.end_screen()
+        if GAME_WINDOW.menu_screen != None:
+
+            GAME_WINDOW.menu_screen.display()
+        elif Global_State.game_state.game_over:
+            GAME_WINDOW.menu_screen = MENU_SCREEN.get_end_screen()
+        # self.run = self.end_screen()
         else:
             self.update_screen()
 
