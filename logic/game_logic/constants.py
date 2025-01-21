@@ -10,8 +10,9 @@ class COLOR:
     TEXT = (0, 0, 0)
 
 class SCREEN:
-    LENGTH = 1920
-    HEIGHT = 1080
+    
+    HEIGHT = 900
+    LENGTH = HEIGHT*16//9
     screen = None
 
     @staticmethod
@@ -89,7 +90,7 @@ class MONSTER_DECK:
     TOTAL_MONSTERS = 100
 
 class CARD:
-    SCALE = 75
+    SCALE = 50
     CARD_AR = (2,3) # Card aspect ratio
     Y_DISPLACE = (int) (SCALE//5) # Distance from the top of text
     CARD_WIDTH = CARD_AR[0] * SCALE
