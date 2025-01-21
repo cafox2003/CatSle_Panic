@@ -89,7 +89,7 @@ class MONSTER_DECK:
     TOTAL_MONSTERS = 100
 
 class CARD:
-    SCALE = 50
+    SCALE = 75
     CARD_AR = (2,3) # Card aspect ratio
     Y_DISPLACE = (int) (SCALE//5) # Distance from the top of text
     CARD_WIDTH = CARD_AR[0] * SCALE
