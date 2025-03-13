@@ -114,8 +114,8 @@ class Monster:
         image_width, image_height = image.get_size()
 
         # Scale image considering the maximum size after rotation
-        diagonal = (image_width**2 + image_height**2) ** 0.5
-        scale_factor = BOARD.RING_DISTANCE / diagonal
+        # diagonal = (image_width**2 + image_height**2) ** 0.5
+        scale_factor = BOARD.RING_DISTANCE / MONSTER.DIAGONAL_SIZE
         new_width = int(image_width * scale_factor)
         new_height = int(image_height * scale_factor)
         image = pygame.transform.scale(image, (new_width, new_height))

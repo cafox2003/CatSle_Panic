@@ -83,8 +83,12 @@ class MONSTER:
         image = pygame.image.load(image_path).convert_alpha()
         image_width, image_height = image.get_size()
 
+        scale_monster = 1.1
+
         # Scale image considering the maximum size after rotation
-        MONSTER.DIAGONAL_SIZE = (image_width**2 + image_height**2) ** 0.5
+        # MONSTER.DIAGONAL_SIZE = ((image_width**2 + image_height**2) ** 0.5)*(1/scale_monster)
+        MONSTER.DIAGONAL_SIZE = BOARD.RING_DISTANCE // scale_monster
+        print(f"Monster diag size: {MONSTER.DIAGONAL_SIZE}")
 
 class MONSTER_DECK:
     TOTAL_MONSTERS = 100
