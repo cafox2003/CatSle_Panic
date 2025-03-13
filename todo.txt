@@ -1,4 +1,0 @@
-1. Export images to a size of 105 x 105
-2. Add larger text such that it's readable at this size.
-3. When adding in text for the numbers, make sure to rotate the image by 120 degrees each way (instead of 90). This will make the numbers be centered properly.
-4. Have fun :) If you feel like taking any creative liberties, you should!
