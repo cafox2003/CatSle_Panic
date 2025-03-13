@@ -1,8 +1,8 @@
 # CatStle Panic
+![A goblin cat](images/screenshots/goblin.png)
 An animal themed recreation of [Castle Panic](https://firesidegames.com/product/castle-panic-second-edition/) 
 ## Getting Started
 
-These instructions will help you set up the project on your local machine.
 ### Prerequisites
 
 Ensure you have the following installed:
@@ -28,10 +28,10 @@ git clone https://github.com/cafox2003/CatSle_Panic.git
 cd CatSle_Panic
 ```
 
-3. Run the game:
+2. Run the game:
 
 ```
-make run  # or manually run `python main.py`
+make run  # or manually python main.py from src/
 ```
 
 ## Built With

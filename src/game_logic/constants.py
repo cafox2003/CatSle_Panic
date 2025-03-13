@@ -91,7 +91,7 @@ class MONSTER:
         print(f"Monster diag size: {MONSTER.DIAGONAL_SIZE}")
 
 class MONSTER_DECK:
-    TOTAL_MONSTERS = 100
+    TOTAL_MONSTERS = 30
 
 class CARD:
     SCALE = 50
