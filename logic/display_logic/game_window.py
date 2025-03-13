@@ -5,7 +5,7 @@ from logic.game_logic.global_state import Global_State
 from logic.display_logic.button import Button
 from logic.display_logic.end_screen import End_Screen
 
-from logic.display_logic.gui_constants import MENU_SCREEN
+from logic.display_logic.gui_constants import MENU_SCREEN, GAME_SCREEN, GUI_CONSTANTS
 
 class Game_Window:
     def __init__(self):
@@ -15,20 +15,23 @@ class Game_Window:
 
         initialize()
         Global_State.initialize()
-        MENU_SCREEN.initialize()
+        # MENU_SCREEN.initialize()
+        GUI_CONSTANTS.initialize()
 
         self.run = True
         self.end_screen = None
         GAME_WINDOW.menu_screen = None
         
-        mod_horizontal_value = 100
         # TODO: Make another class and maybe store button definitions in constants
-        self.buttons = [
-            Button(1500 - mod_horizontal_value, 200, 150, 50, "Move", Global_State.game_state.move_monster), # Move button
-            Button(1700 - mod_horizontal_value, 200, 150, 50, "Add", Global_State.game_state.add_monster), # Add button
-            Button(1300 - mod_horizontal_value, 200, 150, 50, "Draw cards", Global_State.game_state.draw_cards), # Add button
-            Button(1100 - mod_horizontal_value, 200, 150, 50, "Next turn", Global_State.game_state.next_turn) # Add button
-                ]
+        self.buttons = GAME_SCREEN._BUTTONS
+        # print(len(self.buttons))
+        # mod_horizontal_value = 100
+        # self.buttons = [
+        #     Button(1500 - mod_horizontal_value, 200, 150, 50, "Move", Global_State.game_state.move_monster), # Move button
+        #     Button(1700 - mod_horizontal_value, 200, 150, 50, "Add", Global_State.game_state.add_monster), # Add button
+        #     Button(1300 - mod_horizontal_value, 200, 150, 50, "Draw cards", Global_State.game_state.draw_cards), # Add button
+        #     Button(1100 - mod_horizontal_value, 200, 150, 50, "Next turn", Global_State.game_state.next_turn) # Add button
+        #         ]
 
         self.main_loop()
 

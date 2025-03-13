@@ -83,7 +83,7 @@ class MONSTER:
         image = pygame.image.load(image_path).convert_alpha()
         image_width, image_height = image.get_size()
 
-        scale_monster = 1.1
+        scale_monster = 1.3
 
         # Scale image considering the maximum size after rotation
         # MONSTER.DIAGONAL_SIZE = ((image_width**2 + image_height**2) ** 0.5)*(1/scale_monster)
