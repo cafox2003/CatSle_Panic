@@ -1,88 +1,49 @@
-# Cat-Stle Panic
-
-A recreation of the board game [Castle Panic](https://firesidegames.com/product/castle-panic-second-edition/) in python
-
+# CatStle Panic
+An animal themed recreation of [Castle Panic](https://firesidegames.com/product/castle-panic-second-edition/) 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
+These instructions will help you set up the project on your local machine.
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Ensure you have the following installed:
 
 ```
-Give examples
+Python 3.x
+pygame
+make (optional, for running the project with Makefile)
+```
+
+To install pygame, run:
+
+```
+pip install pygame
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+1. Clone the repository:
 
 ```
-Give the example
+git clone https://github.com/cafox2003/CatSle_Panic.git
+cd CatSle_Panic
 ```
 
-And repeat
+3. Run the game:
 
 ```
-until finished
+make run  # or manually run `python main.py`
 ```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Python](https://www.python.org/) - Programming language
+* [pygame](https://www.pygame.org/) - Used for rendering of graphics
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
+Contributions are welcome! If you find a bug, have a feature request, or would like to contribute code, feel free to open an issue or submit a pull request.
 ## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 ## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
+* Inspired by *Castle Panic* board game
+* My wonderful girlfriend - for creating the all the artwork
