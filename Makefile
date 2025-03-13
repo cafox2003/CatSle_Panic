@@ -4,4 +4,4 @@
 
 # Default target
 run:
-	python3 main.py
+	cd src && python3 main.py
