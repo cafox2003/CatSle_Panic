@@ -25,12 +25,13 @@ pip install pygame
 ```
 git clone https://github.com/cafox2003/CatSle_Panic.git
 cd CatSle_Panic
+
 ```
 
 2. Run the game:
 
 ```
-make run  # or manually python main.py from src/
+make run  # or double click run.bat on windows
 ```
 
 ## Built With
