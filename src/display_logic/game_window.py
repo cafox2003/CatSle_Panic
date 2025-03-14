@@ -9,6 +9,8 @@ class Game_Window:
 
     def initialize(self):
 
+        pygame.display.set_caption("CatSle Panic")
+        pygame.image.load("../images/screenshots/icon.png")
         initialize()
         Global_State.initialize()
         GUI_CONSTANTS.initialize()

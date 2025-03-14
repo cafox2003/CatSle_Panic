@@ -1,4 +1,4 @@
-# CatStle Panic ![A goblin cat](images/screenshots/goblin.png)
+# CatStle Panic ![A goblin cat](images/screenshots/game.png)
 An animal themed recreation of [Castle Panic](https://firesidegames.com/product/castle-panic-second-edition/) 
 ## Getting Started
 
