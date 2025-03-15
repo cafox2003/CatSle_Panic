@@ -7,11 +7,18 @@ from display_logic.button import Button
 
 
 class GUI_CONSTANTS:
-    _MENU_BUTTON_DEF_WIDTH = 150
-    _MENU_BUTTON_DEF_HEIGHT = 50
+    _MENU_BUTTON_DEF_WIDTH = 0
+    _MENU_BUTTON_DEF_HEIGHT = 0
 
     @staticmethod
     def initialize():
+        MENU_BUTTON_SCALE_CONST = 11
+        MENU_BUTTON_ASPECT_RATIO = 1/3
+
+        GUI_CONSTANTS._MENU_BUTTON_DEF_WIDTH = SCREEN.LENGTH // MENU_BUTTON_SCALE_CONST
+        GUI_CONSTANTS._MENU_BUTTON_DEF_HEIGHT = GUI_CONSTANTS._MENU_BUTTON_DEF_WIDTH * MENU_BUTTON_ASPECT_RATIO
+
+        print(f"Menu button width: {GUI_CONSTANTS._MENU_BUTTON_DEF_WIDTH}\tMenu button height: {GUI_CONSTANTS._MENU_BUTTON_DEF_HEIGHT}")
         GAME_SCREEN.initialize()
         MENU_SCREEN.initialize()
 

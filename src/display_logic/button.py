@@ -1,5 +1,5 @@
 import pygame
-from game_logic.constants import SCREEN
+from game_logic.constants import SCREEN, FONT
 
 class Button:
     def __init__(self, x, y, width, height, text, action, centered = False):
@@ -22,7 +22,7 @@ class Button:
             pygame.draw.rect(SCREEN.screen, self.color, self.rect)
         
         # Render text on the button
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font(None, FONT.BUTTON)
         text_surface = font.render(self.text, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=self.rect.center)
         SCREEN.screen.blit(text_surface, text_rect)

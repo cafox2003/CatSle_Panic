@@ -1,8 +1,8 @@
 import pygame
 
 def initialize():
-    pygame.init()
     SCREEN.initialize()
+    FONT.initialize()
     MONSTER.initialize()
 
 class COLOR:
@@ -10,18 +10,55 @@ class COLOR:
     TEXT = (0, 0, 0)
 
 class SCREEN:
-    
-    HEIGHT = 900
-    LENGTH = HEIGHT*16//9
-    screen = None
 
+    screen = None
+    HEIGHT = 0
+    LENGTH = 0
+
+    # HEIGHT = 900
+    # LENGTH = HEIGHT * 16/9
+
+    pygame.init()
+
+    DISPLAY_INFO = pygame.display.Info()
+    DISPLAY_WIDTH, DISPLAY_HEIGHT = DISPLAY_INFO.current_w, DISPLAY_INFO.current_h
+
+    ASPECT_RATIO = 16/9;
+    # SCREEN_SCALE = 0.834
+    SCREEN_SCALE = 1
+
+    HEIGHT = (int) (DISPLAY_HEIGHT * SCREEN_SCALE)
+    LENGTH = (int) (HEIGHT * ASPECT_RATIO)
+
+    print(f"Width: {LENGTH}, height: {HEIGHT}")
     @staticmethod
     def initialize():
         SCREEN.screen = pygame.display.set_mode((SCREEN.LENGTH, SCREEN.HEIGHT))
 
+    # @staticmethod
+    # def initialize():
+    #
+    #     pygame.init()
+    #
+    #     DISPLAY_INFO = pygame.display.Info()
+    #     DISPLAY_WIDTH, DISPLAY_HEIGHT = DISPLAY_INFO.current_w, DISPLAY_INFO.current_h
+    #
+    #
+    #     ASPECT_RATIO = 16/9;
+    #     SCREEN_SCALE = 0.8
+    #
+    #     # SCREEN.HEIGHT = DISPLAY_HEIGHT * SCREEN_SCALE
+    #     # SCREEN.LENGTH = SCREEN.HEIGHT * ASPECT_RATIO
+    #     SCREEN.HEIGHT = DISPLAY_HEIGHT * SCREEN_SCALE
+    #     SCREEN.LENGTH = SCREEN.HEIGHT * ASPECT_RATIO
+    #
+    #     print(f"Width: {SCREEN.LENGTH}, height: {SCREEN.HEIGHT}")
+    #     SCREEN.screen = pygame.display.set_mode((SCREEN.LENGTH, SCREEN.HEIGHT))
+
 class BOARD:
     # Border that the board will be surrounded with. Number of pixels
-    BOARD_BORDER = 60
+    BOARD_BORDER_CONST = 30
+    BOARD_BORDER = SCREEN.LENGTH // BOARD_BORDER_CONST
     HEX_BORDER_WIDTH = 6
     CIRCLE_BORDER_WIDTH = HEX_BORDER_WIDTH - 1
 
@@ -83,18 +120,21 @@ class MONSTER:
         image = pygame.image.load(image_path).convert_alpha()
         image_width, image_height = image.get_size()
 
-        scale_monster = 1.3
+        scale_monster = 2
 
         # Scale image considering the maximum size after rotation
-        # MONSTER.DIAGONAL_SIZE = ((image_width**2 + image_height**2) ** 0.5)*(1/scale_monster)
-        MONSTER.DIAGONAL_SIZE = BOARD.RING_DISTANCE // scale_monster
+        MONSTER.DIAGONAL_SIZE = ((image_width**2 + image_height**2) ** 0.5)*(1/scale_monster)
+        # MONSTER.DIAGONAL_SIZE = BOARD.RING_DISTANCE // scale_monster
         print(f"Monster diag size: {MONSTER.DIAGONAL_SIZE}")
+        print(f"Hex size: {BOARD.HEX_BORDER_WIDTH}")
 
 class MONSTER_DECK:
     TOTAL_MONSTERS = 30
 
+
 class CARD:
-    SCALE = 50
+    SCALE_CONST = 30
+    SCALE = SCREEN.LENGTH // SCALE_CONST # Scale based on the width
     CARD_AR = (2,3) # Card aspect ratio
     Y_DISPLACE = (int) (SCALE//5) # Distance from the top of text
     CARD_WIDTH = CARD_AR[0] * SCALE
@@ -115,7 +155,8 @@ class DECK:
     TOP_DECK_POS = (BOARD.BOARD_BORDER)
     BOTTOM_DECK_POS = (SCREEN.HEIGHT - BOARD.BOARD_BORDER - CARD.CARD_HEIGHT)
 
-    BETWEEN_DISTANCE = 30
+    BETWEEN_DISTANCE_CONST = 3
+    BETWEEN_DISTANCE = CARD.CARD_WIDTH // BETWEEN_DISTANCE_CONST
 
 class GAME_STATE:
     NUM_DRAW_MONSTERS = 2
@@ -132,3 +173,15 @@ class END_SCREEN:
 
 class GAME_WINDOW:
     menu_screen = None
+
+class FONT:
+    SCALE_FACTOR = SCREEN.LENGTH // 900 # Scale the font based on the base screen size
+    BUTTON = 36
+
+    @staticmethod
+    def initialize():
+        FONT.BUTTON = FONT.scale(FONT.BUTTON)
+
+    @staticmethod
+    def scale(number):
+        return FONT.SCALE_FACTOR * number
