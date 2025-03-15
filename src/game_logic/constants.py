@@ -133,7 +133,7 @@ class MONSTER_DECK:
 
 
 class CARD:
-    SCALE_CONST = 30
+    SCALE_CONST = 35
     SCALE = SCREEN.LENGTH // SCALE_CONST # Scale based on the width
     CARD_AR = (2,3) # Card aspect ratio
     Y_DISPLACE = (int) (SCALE//5) # Distance from the top of text
